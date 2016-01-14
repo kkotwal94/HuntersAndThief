@@ -1,3 +1,7 @@
+body {
+ background-color: #003c5d;
+}
+
 table {
 	margin: 0 auto;
 	border-collapse: collapse;
@@ -5,8 +9,29 @@ table {
 }
 td {
     width: 50px; height: 50px;
+    border: 2px solid black;
 }
 
-tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+/*tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 	background: white;
+}
+*/
+
+.myCell {
+	background: blue;
+	border: 1px solid black;
+}
+
+.enemyCell {
+	background: red;
+	border: 1px solid black;
+}
+
+#gameContent {
+	text-align: center;
+	margin: 0 auto;
+}
+
+#gameTitle {
+	text-align: center;
 }
