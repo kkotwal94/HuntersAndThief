@@ -17,6 +17,38 @@ var $gameDiv = document.getElementById('gameContent');  //getting gameDiv elemen
 $table.id = "gameGrid"; //setting table id
 
 //!IMPORTANT => WE SHOULD PROBABLY MAKE A HUNTER AND A THIEF A CLASS, SO WE COULD HAVE MULTIPLE CHARACTERS IF WE WANTED TO FOR SOME REASON, LIKE HUNTER AND THIEF PARTY 5, or have multiple games going on
+
+var hero = function(type, nickname, location) {
+    this.health = 100;
+    this.currentTraps = {};
+    this.nickname = nickname;
+    this.goldLocation = null;
+    this.updateGoldLocation = function() {
+        
+    }
+    
+    this.victory = false;
+    this.location = location;
+    this.type = type; //hunters or thiefs
+    this.isTurn = false;
+    
+    this.setTurn = function() {
+        this.isTurn = true;
+    }
+    
+    this.updateHealth = function(x) {
+        this.health = x;
+    }
+    
+    this.updateNickName = function(name) {
+        this.nickname = name;
+    }
+    
+    this.setGoldLocation = function(x, y) {
+        this.goldLocation = "(" + x + "," + y + ")";
+    }
+    
+}
 //===========================================================================
 // Init Hunter Object
 //===========================================================================
