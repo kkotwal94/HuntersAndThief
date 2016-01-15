@@ -1,3 +1,11 @@
+//1. Set up grid
+//2. Having movabillity for sprites
+//3. Adding in another sprite and moving logic
+//4. set up turn base
+//5. place traps //logic added
+//6. place gold //logic added
+//6. step on traps logic
+//7. animations for 
 //===========================================================================
 // Global game variables and objects
 //===========================================================================
@@ -8,7 +16,7 @@ var mapReduce = false; //if we decide to reduce the map
 var turnNum = 0; //current turn number
 var size = 10; // size of grid, if square
 var halfpoint = size / 2; //half the grid size to differentiate enemy space and your space
-
+var playerNickname = '';
 //===========================================================================
 // Selectors for making grid and setting its id
 //===========================================================================
@@ -19,14 +27,10 @@ $table.id = "gameGrid"; //setting table id
 //!IMPORTANT => WE SHOULD PROBABLY MAKE A HUNTER AND A THIEF A CLASS, SO WE COULD HAVE MULTIPLE CHARACTERS IF WE WANTED TO FOR SOME REASON, LIKE HUNTER AND THIEF PARTY 5, or have multiple games going on
 
 var hero = function(type, nickname, location) {
-    this.health = 100;
+    this.alive = true;
     this.currentTraps = {};
     this.nickname = nickname;
     this.goldLocation = null;
-    this.updateGoldLocation = function() {
-        
-    }
-    
     this.victory = false;
     this.location = location;
     this.type = type; //hunters or thiefs
@@ -36,8 +40,12 @@ var hero = function(type, nickname, location) {
         this.isTurn = true;
     }
     
-    this.updateHealth = function(x) {
-        this.health = x;
+    this.setDead = function() {
+        this.alive = false;
+    }
+    
+    this.setAlive = function() {
+        this.alive = true;
     }
     
     this.updateNickName = function(name) {
@@ -48,34 +56,22 @@ var hero = function(type, nickname, location) {
         this.goldLocation = "(" + x + "," + y + ")";
     }
     
-}
-//===========================================================================
-// Init Hunter Object
-//===========================================================================
-var hunter = {health: 100, 
-                currentTraps: {}, //will be a object that holds objects named trap + i, where i will be the 1st 2nd 3rd trap
-                trapsPlaced: 0,  //traps placed
-                isTurn: true,  //if it is his/her turn
-                goldLocation: null, //update when goldLocation is set
-                victory: null, //win or not
-                nickname: null, //if multiplayer set nickname so niggas can watch
-                hunterLocation: null,
-                type: 'hunter'}; //set location to default value based of size etc, update upon move
+    this.setVictory = function() {
+        this.victory = true;
+    }
+    
+    this.addTrapAndUpdateGrid = function(x, y) {
+        var trapToString = '(' + x + ',' + y + ')';
+        this.currentTrap[trapToString] = {locationX: x, locationY: y, defused: false, active: false, exploded: false, pending: false};
+        grid[trapToString].trap = this.currentTrap[trapToString];
+    }
+    
+    this.updateLocation = function(location) {
+        this.location = location;
+    }
 
-//===========================================================================
-// Init Thief Object
-//===========================================================================
-var thief = {health: 100, 
-                currentTraps: {}, //will be a object that holds objects named trap + i, where i will be the 1st 2nd 3rd trap
-                trapsPlaced: 0,  //traps placed
-                isTurn: false,  //if it is his/her turn
-                goldLocation: null, //update when goldLocation is set
-                thiefLocation: null, //current location of theif
-                isGoldObtainable: true, //update every turn, based off whether gold is obtainable or not
-                goldObtained: false, //update if gold is obtained;
-                nickname: null, //if multiplayer set nickname so niggas can watch and play
-                victory: null,
-                type: 'thief'} 
+}
+
 
 //===========================================================================
 // Create grid and fill grid{} object with initialized objects for each key
@@ -168,16 +164,6 @@ var validateHunterMove = function(position) {
 // Method for setting traps
 //===========================================================================
 
-var setHunterTraps = function(position) {
-    //do at position, see if that position is empty by checking grid{} object
-    //turn is false for hunter after action is complete using drag/drop source/events
-}
-
-var setThiefTraps = function(position) {
-    //do at position, see if that position is empty by checking grid{} object
-    //turn is false for hunter after action is complete using drag/drop source/events
-}
-
 //checking gridSpace
 var checkGridSpace = function(position) {
     if(Grid[position].trap == true || Grid[position].gold == true || Grid[position].hasPlayer == true) {
@@ -236,7 +222,6 @@ var BFS = function() {
 //===========================================================================
 // Calling the createGrid function and checking grid object in console
 //===========================================================================
-hunter.nickname = nickName("hunter"); //ultimately we want users to set their names before playing, inserted this for testing
-thief.nickname = nickName("thiefy");
+
 createGrid();
 console.log(grid);
