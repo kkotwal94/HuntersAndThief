@@ -223,11 +223,22 @@ var BFS = function() {
 //===========================================================================
 
 createGrid();
-
-var displayDate = function() {
-    alert("Date");
+var changeColor = function() {
+    if(this.style.borderColor == "yellow"){
+        this.style.borderColor = "black";
+        this.style.borderWidth = 2;
+    }
+    else
+    this.style.borderColor = "yellow";
+    this.style.borderWidth = 3;
 }
-var div = document.getElementById('(0,1)').addEventListener("click", displayDate);
+var displayDate = function() {
+     for(var i =0; i< size; i++) {
+        for(var j=0; j<size; j++) {
+            var div = document.getElementById("("+ i +","+j+")").addEventListener("click",changeColor);
+}}}
+displayDate();
+
 
 
 console.log(grid);
