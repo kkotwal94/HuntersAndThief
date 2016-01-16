@@ -106,10 +106,6 @@ var createGrid = function() {
    $gameDiv.appendChild($table); //Append our table to our gamediv
 }
 
-var displayDate = function() {
-    alert("Date");
-}
-
 
 //===========================================================================
 // Methods for checking if either user won
@@ -231,7 +227,7 @@ var changeColor = function() {
     else
     this.style.borderColor = "yellow";
     this.style.borderWidth = 3;
-}
+};
 var displayDate = function() {
      for(var i =0; i< size; i++) {
         for(var j=0; j<size; j++) {
