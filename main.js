@@ -96,9 +96,13 @@ var createGrid = function() {
             $tr.appendChild($td); //append cell to table row
         }
     }
-    $gameDiv.appendChild($table); //Append our table to our gamediv
+   $gameDiv.appendChild($table); //Append our table to our gamediv
 }
 
+var displayDate = function() {
+    alert("Date");
+}
+var div = document.getElementById('(0,1)').addEventListener("click", displayDate);
 
 //===========================================================================
 // Methods for checking if either user won
