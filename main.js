@@ -220,19 +220,13 @@ var BFS = function() {
 
 createGrid();
 var changeColor = function() {
-    if(this.style.borderColor == "yellow"){
-        this.style.borderColor = "black";
-        this.style.borderWidth = 2;
-    }
-    else
-    this.style.borderColor = "yellow";
-    this.style.borderWidth = 3;
+   this.classList.toggle("selected");
 };
 var displayDate = function() {
      for(var i =0; i< size; i++) {
         for(var j=0; j<size; j++) {
             var div = document.getElementById("("+ i +","+j+")").addEventListener("click",changeColor);
-}}}
+}}};
 displayDate();
 
 
