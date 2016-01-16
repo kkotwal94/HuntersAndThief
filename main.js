@@ -5,7 +5,9 @@
 //5. place traps //logic added
 //6. place gold //logic added
 //6. step on traps logic
-//7. animations for 
+//7. animations for moving/dieing
+//8. map reduction logic
+
 //===========================================================================
 // Global game variables and objects
 //===========================================================================
@@ -33,6 +35,7 @@ var hero = function(type, nickname, location) {
     this.goldLocation = null;
     this.victory = false;
     this.location = location;
+    this.coordinateLocation = null;
     this.type = type; //hunters or thiefs
     this.isTurn = false;
     
@@ -66,8 +69,12 @@ var hero = function(type, nickname, location) {
         grid[trapToString].trap = this.currentTrap[trapToString];
     }
     
-    this.updateLocation = function(location) {
+    this.updateLocation = function(location) { 
         this.location = location;
+    }
+    
+    this.updateCoordinateLocation = function(coordinates) { //coordinates is a object
+        this.coordinateLocation = coordinates;
     }
 
 }
@@ -135,24 +142,12 @@ var init = function() {
 // Method for moving sprites
 //===========================================================================
 
-var move = function(player, position) {
-    if(player.type == 'thief') {
-        if(validateThiefMove(position)) {
-            player.thiefLocation = position; //position should be a object like our cells ({x, y})
-        }
-        //then check if anything is at that location like trap or gold
-    }
 
-     if(player.type == 'hunter') {
-        if(validateHunterMove(position)) {
-            player.hunterLocation = position; //position should be a object like our cells ({x, y})
-        }
-    }
-    //then check if anything is at that location
-}
 
-var validateThiefMove = function (position) {
+var validateThiefMove = function (player, position) {
  //Thief movement logic in here maybe
+ //if((grid[position].currentX - player.coordinateLocation.currentX >)
+ 
 }
 
 var validateHunterMove = function(position) {
@@ -224,4 +219,11 @@ var BFS = function() {
 //===========================================================================
 
 createGrid();
+
+var displayDate = function() {
+    alert("Date");
+}
+var div = document.getElementById('(0,1)').addEventListener("click", displayDate);
+
+
 console.log(grid);
