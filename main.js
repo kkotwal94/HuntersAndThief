@@ -109,7 +109,7 @@ var createGrid = function() {
 var displayDate = function() {
     alert("Date");
 }
-var div = document.getElementById('(0,1)').addEventListener("click", displayDate);
+
 
 //===========================================================================
 // Methods for checking if either user won
