@@ -4,18 +4,61 @@
     <title>Hunter and Thief</title>
     <link rel="stylesheet" type="text/css" href="ht.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="navbar.css" rel="stylesheet" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <link href='http://fonts.googleapis.com/css?family=Economica' rel='stylesheet' type='text/css'>  
+
 </head>
 
 <body>
-    <nav>
-        Create Navbar here
-    </nav>
-    
-    
-    <h1 id="gameTitle">Hunter and Thief</h1>
-    <div id="gameContent">
+    <!--
+    <nav id="mainNav" class="mainNav">
+	<div class="container">
+		<div class="logo"><a href="#">Hunters and <strong>Thieves</strong></a></div>
+		<label class="navBars" for="xBxHack">
+			<i class="fa fa-bars"></i>
+		</label>
+		<ul id="menu" class="menu">
+			
+			<li><a href="#">About</a></li>
+			<li><a href="#">Code</a></li>
+			<li><a href="#">Tutorial</a></li>
+		</ul>
+	</div>
+</nav>
+    -->
+    <div id="wrapper">
+        <div id="gameContent">
+        </div>
+        <div id="nickname">
+            <h3>Login Name:</h3>
+	        <form class = "dif" action = "" onsubmit="return setNickname()">
+        	<input class = "input" id = "nickNames" placeholder = "Enter Nickname.."/>
+	        </form>
+	<h3 id="loggedin">Currently Logged in as: </h3>
+        </div>
+        <div id="usersonline">
+            <h3>Users Online</h3>
+            <ul id="currentlyonline">
+                
+            </ul>
+        </div>
+        <div id="chatArea">
+            <div id="messages">    
+                <ul id="listmessages">
+                </ul>
+            </div>
+            <div id="chatbox">
+                <form name="chatsubmit"  onsubmit="return inputMessage()">
+                <input id="chatinput" name="chatinput" placeholder="Insert Message here"/>
+                </form>
+            </div>
     </div>
+    
+    </div>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

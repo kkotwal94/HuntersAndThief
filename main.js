@@ -19,6 +19,8 @@ var turnNum = 0; //current turn number
 var size = 10; // size of grid, if square
 var halfpoint = size / 2; //half the grid size to differentiate enemy space and your space
 var playerNickname = '';
+
+var socket = io();
 //===========================================================================
 // Selectors for making grid and setting its id
 //===========================================================================
@@ -95,7 +97,7 @@ var createGrid = function() {
         }
         $table.appendChild($tr); //append the row to our table
         for(var j=0; j<size; j++) {
-            var newObj={locationY: i, locationX: j, trap: null, gold: null, hasPlayer: null}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
+            var newObj={locationY: i, locationX: j, trap: false, gold: false, hasPlayer: false}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
             var pos = "(" + j + "," + i + ")"; //gives us our position for these cells as a coordinate
             grid[pos] = newObj; //in our grid object, we'll have another object within it named the location such as grid { (0,1): {locationX: 0, locationY:0 .... } (0,2) : ... }
             var $td = document.createElement('td'); //create our cell element
@@ -161,7 +163,7 @@ var validateHunterMove = function(position) {
 
 //checking gridSpace
 var checkGridSpace = function(position) {
-    if(Grid[position].trap == true || Grid[position].gold == true || Grid[position].hasPlayer == true) {
+    if(grid[position].trap == true || grid[position].gold == true || grid[position].hasPlayer == true) {
         return false;
     } else {
         return true;
@@ -207,8 +209,55 @@ var BFS = function() {
 //===========================================================================
 // socket.io methods for multiplayer
 //===========================================================================
+//setting name
+var nameSet = false;
 
 
+var inputMessage = function() {
+    var chatInput = document.getElementById("chatinput").value;
+    event.preventDefault();
+    //console.log(chatInput);
+    socket.emit('chat message', chatInput); //sends message to server
+    document.getElementById("chatinput").value = "";
+    return false;
+}
+
+socket.on('chat message', function(msg) {
+    var chatList = document.getElementById("listmessages");
+    var $li = document.createElement("li");
+    $li.appendChild(document.createTextNode(msg));
+    $li.setAttribute("id", "user"); // added line
+    chatList.appendChild($li);
+	 $('#listmessages').animate({
+        scrollTop: $('#chatbox')[0].scrollHeight});
+    
+	});
+
+var setNickname = function() {
+    console.log(nameSet);
+    var inputName = document.getElementById("nickNames").value;
+    var loggedin = document.getElementById("loggedin");
+    event.preventDefault();
+    if(nameSet == true) {
+        socket.emit('changenickname', inputName);
+    } else {
+      socket.emit('adduser', inputName);
+      nameSet = true;
+    }
+    inputName.innerHTML = "";
+    loggedin.innerHTML = "Currently logged in as: " + inputName;
+    
+}
+
+
+socket.on('updateusers', function(usernames) {
+    var online = document.getElementById("currentlyonline");
+    online.innerHTML = "";
+	
+	$.each(usernames, function(key, value) {
+	   $('#currentlyonline').append('<li>' + value + '<li>');
+	});
+	});
 //===========================================================================
 // AI Methods for computer
 //===========================================================================
