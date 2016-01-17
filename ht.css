@@ -13,9 +13,19 @@ td {
     border-top: 2px solid black; 
     border-left: 2px solid black;
 }
-td.selected{
+td.selectedH{
 	 border: 2px solid yellow; 
 }
+td.selectedT{
+	 border: 2px solid lime; 
+}
+td.validH{
+	 background-color: white; 
+}
+td.validT{
+	 background-color: white;
+}
+
 
 /*tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 	background: white;
