@@ -226,7 +226,7 @@ var inputMessage = function() {
 socket.on('chat message', function(msg) {
     var chatList = document.getElementById("listmessages");
     var $li = document.createElement("li");
-    $li.appendChild(document.createTextNode(msg));
+    $lipre.appendChild(document.createTextNode(msg));
     $li.setAttribute("id", "user"); // added line
     chatList.appendChild($li);
 	 $('#listmessages').animate({
@@ -294,7 +294,7 @@ grid["(0,5)"].playerType = "H";
 
 
 grid["(1,1)"].hasPlayer = true;
-grid["(1,1)"].playerType = "H";
+grid["(1,1)"].playerType = "T";
 
 grid["(1,2)"].hasPlayer = true;
 grid["(1,2)"].playerType = "H";
@@ -313,68 +313,183 @@ var changeColor = function() {
     if(grid[this.id].hasPlayer == true){
         if(isSelected == false && grid[this.id].playerType == "H"){
             this.classList.toggle("selectedH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 2)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 2)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+2)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")").classList.toggle("validH");
+            var cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 2)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 2)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
             isSelected = true;
         }
         else if (isSelected == false && grid[this.id].playerType == "T"){
             this.classList.toggle("selectedT");
             for(var i=1; i<(size-grid[this.id].locationX+2); i++){
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validT");
+            var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            } 
+            dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY+1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY-1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY+1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
             }
             isSelected = true;
         }
-        else if(isSelected == true && (this.classList.contains("selectedH")||this.classList.contains("selectedT")))
-        {
-        if(grid[this.id].playerType == "H"){
+        else if(isSelected == true && this.classList.contains("selectedH")){
             this.classList.toggle("selectedH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 2)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+(grid[this.id].locationX - 2)+","+grid[this.id].locationY+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+1)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+2)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-1)+")").classList.toggle("validH");
-            document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")").classList.toggle("validH");
-            isSelected = false;
+            var cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 2)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[this.id].locationX - 2)+","+grid[this.id].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            } isSelected = false;
         }
-        else if(grid[this.id].playerType == "T"){
+        else if(isSelected == true && this.classList.contains("selectedT")){
             this.classList.toggle("selectedT");
             for(var i=1; i<(size-grid[this.id].locationX+2); i++){
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-i)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY+1)+")").classList.toggle("validT");
-            document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")").classList.toggle("validT");
+            var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
             }
+            dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            } 
+            dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-i)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY+1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY-1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY+1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            }
+            dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")");
+            if(dog){
+            dog.classList.toggle("validT");
+            } }
             isSelected = false;
         }
         }
-    }
 };
 
 var cellClickListeners = function() {
