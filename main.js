@@ -479,7 +479,7 @@ var changeColor = function() {
         }
         else if (isSelected == false && grid[this.id].playerType == "T"){ //nothing is selected and you click a thief
             this.classList.toggle("selectedT");
-            for(var i=1; i<(size-grid[this.id].locationX+2); i++){
+            for(var i=1; i<size; i++){
             var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
             if(dog){
             dog.classList.toggle("validT");
@@ -590,7 +590,7 @@ var changeColor = function() {
         }
         else if(isSelected == true && this.classList.contains("selectedT")){
             this.classList.toggle("selectedT");
-            for(var i=1; i<(size-grid[this.id].locationX+2); i++){
+            for(var i=1; i<size; i++){
             var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
             if(dog){
             dog.classList.toggle("validT");
@@ -636,7 +636,7 @@ var changeColor = function() {
                 grid[this.id].playerType = "T";
                 grid[currentSelectedTile].hasPlayer = false;
                 grid[currentSelectedTile].playerType = null;
-                 for(var i=1; i<(size-grid[currentSelectedTile].locationX+2); i++){
+                 for(var i=1; i<size; i++){
                  var dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+i)+")");
                  if(dog){
                  dog.classList.toggle("validT");
