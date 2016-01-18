@@ -19,7 +19,12 @@ var turnNum = 0; //current turn number
 var size = 10; // size of grid, if square
 var halfpoint = size / 2; //half the grid size to differentiate enemy space and your space
 var playerNickname = '';
+
 var isSelected = false;
+var currentSelectedTile = null;
+var currentValidMoveLocations = [];
+var currentNumOfValid = 0;
+
 
 var LobbyRoom = [];
 var LobbyRoomSize = 2;
@@ -101,7 +106,7 @@ var createGrid = function() {
         }
         $table.appendChild($tr); //append the row to our table
         for(var j=0; j<size; j++) {
-            var newObj={locationY: i, locationX: j, trap: false, gold: false, hasPlayer: null, playerType: null}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
+            var newObj={locationY: i, locationX: j, trap: false, gold: false, hasPlayer: false, playerType: null}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
             var pos = "(" + j + "," + i + ")"; //gives us our position for these cells as a coordinate
             grid[pos] = newObj; //in our grid object, we'll have another object within it named the location such as grid { (0,1): {locationX: 0, locationY:0 .... } (0,2) : ... }
             var $td = document.createElement('td'); //create our cell element
@@ -394,94 +399,138 @@ grid["(1,5)"].playerType = "H";
 
 var changeColor = function() {
     if(grid[this.id].hasPlayer == true){
-        if(isSelected == false && grid[this.id].playerType == "H"){
+        if(isSelected == false && grid[this.id].playerType == "H"){ //nothing is selected and you click a hunter
             this.classList.toggle("selectedH");
             var cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX + 2)+","+grid[this.id].locationY+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+grid[this.id].locationY+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+(grid[this.id].locationX - 2)+","+grid[this.id].locationY+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY+2)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-1)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
             cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")");
             if(cat){
             cat.classList.toggle("validH");
+            currentValidMoveLocations[currentNumOfValid] = cat.id;
+            currentNumOfValid++;
             }
+            console.log(currentValidMoveLocations);
+            currentSelectedTile = this.id;
             isSelected = true;
         }
-        else if (isSelected == false && grid[this.id].playerType == "T"){
+        else if (isSelected == false && grid[this.id].playerType == "T"){ //nothing is selected and you click a thief
             this.classList.toggle("selectedT");
             for(var i=1; i<(size-grid[this.id].locationX+2); i++){
             var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY+i)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             } 
             dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY-i)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX + 1)+","+(grid[this.id].locationY-i)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY+1)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX - i - 1)+","+(grid[this.id].locationY-1)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY+1)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")");
             if(dog){
             dog.classList.toggle("validT");
+            currentValidMoveLocations[currentNumOfValid] = dog.id;
+            currentNumOfValid++;
             }
             }
+            console.log(currentValidMoveLocations);
+            currentSelectedTile = this.id;
             isSelected = true;
         }
         else if(isSelected == true && this.classList.contains("selectedH")){
@@ -533,7 +582,11 @@ var changeColor = function() {
             cat = document.getElementById("("+grid[this.id].locationX+","+(grid[this.id].locationY-2)+")");
             if(cat){
             cat.classList.toggle("validH");
-            } isSelected = false;
+            } 
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
         }
         else if(isSelected == true && this.classList.contains("selectedT")){
             this.classList.toggle("selectedT");
@@ -569,10 +622,120 @@ var changeColor = function() {
             dog = document.getElementById("("+(grid[this.id].locationX + i + 1)+","+(grid[this.id].locationY-1)+")");
             if(dog){
             dog.classList.toggle("validT");
-            } }
+            } 
+            }
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
             isSelected = false;
         }
         }
+    if(grid[this.id].hasPlayer == false){
+        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "T"){
+                grid[this.id].hasPlayer = true;
+                grid[this.id].playerType = "T";
+                grid[currentSelectedTile].hasPlayer = false;
+                grid[currentSelectedTile].playerType = null;
+                 for(var i=1; i<(size-grid[currentSelectedTile].locationX+2); i++){
+                 var dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+i)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                  dog = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY+i)+")");
+                  if(dog){
+                 dog.classList.toggle("validT");
+                  } 
+                  dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY-i)+")");
+                  if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY-i)+")");
+                 if(dog){
+                  dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX - i - 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX - i - 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                  }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + i + 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+                 if(dog){
+                  dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + i + 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+                if(dog){
+                dog.classList.toggle("validT");
+                 } 
+             }
+                document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
+            }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "H"){
+                grid[this.id].hasPlayer = true;
+                grid[this.id].playerType = "H";
+                grid[currentSelectedTile].hasPlayer = false;
+                grid[currentSelectedTile].playerType = null;
+            var cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 2)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 2)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY+2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY-2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            } 
+            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
+        }   
+        } 
 };
 
 var cellClickListeners = function() {
