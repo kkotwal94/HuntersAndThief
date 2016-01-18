@@ -25,6 +25,30 @@ td.validH{
 td.validT{
 	 background-color: white;
 }
+td.hasRedHunter{
+	background-image: url("https://www.fillmurray.com/40/40");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+td.hasRedThief{
+	background-image: url("https://www.fillmurray.com/g/40/40");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+td.hasBlueHunter{
+	background-image: url("https://www.fillmurray.com/45/45");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+td.hasBlueThief{
+	background-image: url("https://www.fillmurray.com/40/40");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
 
 /*tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {

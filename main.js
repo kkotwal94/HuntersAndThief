@@ -106,7 +106,7 @@ var createGrid = function() {
         }
         $table.appendChild($tr); //append the row to our table
         for(var j=0; j<size; j++) {
-            var newObj={locationY: i, locationX: j, trap: false, gold: false, hasPlayer: false, playerType: null}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
+            var newObj={locationY: i, locationX: j, trap: false, gold: false, hasPlayer: false, playerType: null, playerTeam:null}; //create a new key/dictionary value for each cell/tile in our table into our grid obj, which will keep track of what exists in each cell
             var pos = "(" + j + "," + i + ")"; //gives us our position for these cells as a coordinate
             grid[pos] = newObj; //in our grid object, we'll have another object within it named the location such as grid { (0,1): {locationX: 0, locationY:0 .... } (0,2) : ... }
             var $td = document.createElement('td'); //create our cell element
@@ -394,48 +394,23 @@ var leave = function() {
 
 createGrid();
 
-grid["(5,5)"].hasPlayer = true; // just showing theres a player in the middle, for now just assuming it is a hunter
+grid["(5,5)"].hasPlayer = true;
+grid["(5,5)"].playerType = "Hunter";
+grid["(5,5)"].playerTeam = "Red";
 grid["(4,5)"].hasPlayer = true;
-grid["(5,5)"].playerType = "H";
-grid["(4,5)"].playerType = "T";
+grid["(4,5)"].playerType = "Thief";
+grid["(4,5)"].playerTeam = "Red";
 grid["(0,0)"].hasPlayer = true;
-grid["(0,0)"].playerType = "H";
+grid["(0,0)"].playerType = "Hunter";
+grid["(0,0)"].playerTeam = "Blue";
 
-grid["(0,1)"].hasPlayer = true;
-grid["(0,1)"].playerType = "H";
-
-grid["(0,2)"].hasPlayer = true;
-grid["(0,2)"].playerType = "H";
-
-grid["(0,3)"].hasPlayer = true;
-grid["(0,3)"].playerType = "H";
-
-grid["(0,4)"].hasPlayer = true;
-grid["(0,4)"].playerType = "H";
-
-grid["(0,5)"].hasPlayer = true;
-grid["(0,5)"].playerType = "H";
-
-
-grid["(1,1)"].hasPlayer = true;
-grid["(1,1)"].playerType = "T";
-
-grid["(1,2)"].hasPlayer = true;
-grid["(1,2)"].playerType = "H";
-
-grid["(1,3)"].hasPlayer = true;
-grid["(1,3)"].playerType = "H";
-
-grid["(1,4)"].hasPlayer = true;
-grid["(1,4)"].playerType = "H";
-
-grid["(1,5)"].hasPlayer = true;
-grid["(1,5)"].playerType = "H";
-
+document.getElementById("(5,5)").classList.toggle("hasRedHunter");
+document.getElementById("(4,5)").classList.toggle("hasRedThief");
+document.getElementById("(0,0)").classList.toggle("hasBlueHunter");
 
 var changeColor = function() {
     if(grid[this.id].hasPlayer == true){
-        if(isSelected == false && grid[this.id].playerType == "H"){ //nothing is selected and you click a hunter
+        if(isSelected == false && grid[this.id].playerType == "Hunter"){ //nothing is selected and you click a hunter
             this.classList.toggle("selectedH");
             var cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")");
             if(cat){
@@ -513,7 +488,7 @@ var changeColor = function() {
             currentSelectedTile = this.id;
             isSelected = true;
         }
-        else if (isSelected == false && grid[this.id].playerType == "T"){ //nothing is selected and you click a thief
+        else if (isSelected == false && grid[this.id].playerType == "Thief"){ //nothing is selected and you click a thief
             this.classList.toggle("selectedT");
             for(var i=1; i<size; i++){
             var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
@@ -667,11 +642,11 @@ var changeColor = function() {
         }
         }
     if(grid[this.id].hasPlayer == false){
-        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "T"){
+        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){
                 grid[this.id].hasPlayer = true;
-                grid[this.id].playerType = "T";
+                grid[this.id].playerType = "Thief";
+                grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
                 grid[currentSelectedTile].hasPlayer = false;
-                grid[currentSelectedTile].playerType = null;
                  for(var i=1; i<size; i++){
                  var dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+i)+")");
                  if(dog){
@@ -706,17 +681,21 @@ var changeColor = function() {
                 dog.classList.toggle("validT");
                  } 
              }
-                document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
             currentValidMoveLocations = [];
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
             }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "H"){
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Hunter"){
                 grid[this.id].hasPlayer = true;
-                grid[this.id].playerType = "H";
+                grid[this.id].playerType = "Hunter";
+                grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
                 grid[currentSelectedTile].hasPlayer = false;
-                grid[currentSelectedTile].playerType = null;
             var cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+grid[currentSelectedTile].locationY+")");
             if(cat){
             cat.classList.toggle("validH");
@@ -766,6 +745,10 @@ var changeColor = function() {
             cat.classList.toggle("validH");
             } 
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
             currentValidMoveLocations = [];
             currentNumOfValid = 0;
             currentSelectedTile = null;
