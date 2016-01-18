@@ -21,6 +21,9 @@ var halfpoint = size / 2; //half the grid size to differentiate enemy space and 
 var playerNickname = '';
 var isSelected = false;
 
+var LobbyRoom = [];
+var LobbyRoomSize = 2;
+
 var socket = io();
 //===========================================================================
 // Selectors for making grid and setting its id
@@ -226,27 +229,47 @@ var inputMessage = function() {
 socket.on('chat message', function(msg) {
     var chatList = document.getElementById("listmessages");
     var $li = document.createElement("li");
-    $lipre.appendChild(document.createTextNode(msg));
+    $li.appendChild(document.createTextNode(msg));
     $li.setAttribute("id", "user"); // added line
     chatList.appendChild($li);
 	 $('#listmessages').animate({
-        scrollTop: $('#chatbox')[0].scrollHeight});
+        scrollTop: $('#listmessages')[0].scrollHeight});
     
 	});
 
+var isSet = false;
+
 var setNickname = function() {
-    console.log(nameSet);
-    var inputName = document.getElementById("nickNames").value;
+    //console.log(nameSet);
+    
+    var form = document.getElementById("nickname"); //get form html content
+    playerNickname = document.getElementById("nickNames").value;
     var loggedin = document.getElementById("loggedin");
     event.preventDefault();
+    
+    
     if(nameSet == true) {
-        socket.emit('changenickname', inputName);
+        socket.emit('changenickname', playerNickname);
     } else {
-      socket.emit('adduser', inputName);
+      socket.emit('adduser', playerNickname);
       nameSet = true;
     }
-    inputName.innerHTML = "";
-    loggedin.innerHTML = "Currently logged in as: " + inputName;
+    document.getElementById("nickNames").innerHTML = "";
+    loggedin.innerHTML = "Currently logged in as: " + playerNickname;
+    
+    if(isSet == false) {
+    var btn = document.createElement("BUTTON");
+    var t = document.createTextNode("Join Lobby");
+    btn.appendChild(t);
+    btn.id = "joinLobby";
+    btn.onclick = function() { 
+        join(playerNickname);
+    };
+    //btn.addEventListener('click', join(playerNickname));
+    form.appendChild(btn);
+    isSet = true;
+        
+    }
     
 }
 
@@ -259,6 +282,66 @@ socket.on('updateusers', function(usernames) {
 	   $('#currentlyonline').append('<li>' + value + '<li>');
 	});
 	});
+	
+socket.on('updatingLobby', function(lobby) {
+    var form = document.getElementById("nickname"); //get form html content
+    var lobbyRoom = document.getElementById("lobbyRoom");
+    var button = document.getElementById("joinLobby");
+    lobbyRoom.innerHTML = "";
+    var length = lobby.length;
+    for(var i = 0; i < length; i++){
+       var li = document.createElement('li');
+       li.innerHTML = lobby[i];
+       lobbyRoom.appendChild(li);
+    }
+    form.removeChild(button);
+    var btn = document.createElement("BUTTON");
+    var t = document.createTextNode("Leave Lobby");
+    btn.appendChild(t);
+    btn.id ="leaveLobby";
+     btn.onclick = function() { 
+        leave(playerNickname);
+    };
+    form.appendChild(btn);
+});
+
+socket.on('lobbyfull', function(lobby) {
+    var lobbyRoom = document.getElementById("lobbyRoom");
+    lobbyRoom.innerHTML = "";
+    var length = lobby.length;
+    for(var i = 0; i < length; i++){
+       var li = document.createElement('li');
+       li.innerHTML = lobby[i];
+       lobbyRoom.appendChild(li);
+    }
+
+});
+
+/*var btn = document.getElementById("joinLobby");
+if (btn!=null) {
+    
+btn.addEventListener('click', join(playerNickname));
+}*/
+var join = function(name) { 
+    console.log("we have been clicked!");
+    socket.emit('updateLobby', name);
+};
+
+var leave = function() {
+    var form = document.getElementById("nickname"); //get form html content
+    var button = document.getElementById("leaveLobby");
+    form.removeChild(button);
+    var btn = document.createElement("BUTTON");
+    var t = document.createTextNode("Join Lobby");
+    btn.appendChild(t);
+    btn.id = "joinLobby";
+    btn.onclick = function() { 
+        join(playerNickname);
+    };
+    //btn.addEventListener('click', join(playerNickname));
+    form.appendChild(btn);
+    socket.emit('leaveLobby');
+}
 //===========================================================================
 // AI Methods for computer
 //===========================================================================

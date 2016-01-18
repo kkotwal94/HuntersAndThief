@@ -74,6 +74,7 @@ td.validT{
 	word-wrap : break-word;
 	padding: 5px;
 	margin: 0;
+	 overflow:auto;
 }
 
 #chatbox {
@@ -143,4 +144,36 @@ color:red;
 -o-transition: background-color .15s ease-out;
 transition: background-color .15s ease-out;
 
+}
+
+#lob {
+	list-style:none;
+	width: 20%;
+	margin: 0 auto;
+	background-color: black;
+	color: white;
+
+}
+
+#lob:hover {
+background-color:#001A33;
+color:red;
+-webkit-transition: background-color .15s ease-out;
+-moz-transition: background-color .15s ease-out;
+-o-transition: background-color .15s ease-out;
+transition: background-color .15s ease-out;	
+}
+
+#joinLobby {
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border:none;
+}
+
+#leaveLobby {
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border:none;
 }

@@ -15,6 +15,7 @@ console.log('Server is listening on port... ' + port);
 var usernames = {};
 var numUsers = 0;
 var rooms = ['Lobby','Dota 2 Chat','Joke Chat'];
+var lobby = [];
 //routing to our index.html
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -40,10 +41,34 @@ io.on('connection', function(socket) {
     numUsers++;
     socket.broadcast.emit('chat message', socket.username + ' has connected to the chat!')
     socket.emit('updaterooms',rooms,'Lobby');
+    socket.emit('lobbyfull', lobby);
 
 });
 
   
+socket.on('updateLobby', function(username) {
+    if(lobby.length < 2) {
+        lobby.push(username); //set a member in the lobby to be that username
+        console.log(lobby);
+        io.sockets.emit('updatingLobby', lobby);
+        
+    }
+    
+    else {
+        socket.emit('lobbyfull', lobby);
+       
+    }
+});
+
+socket.on('leaveLobby', function() {
+    for(var i = 0; i < lobby.length; i++) {
+        if(socket.username == lobby[i]) {
+            lobby.splice(i, 1);
+        }
+    }
+    io.sockets.emit('lobbyfull', lobby); //emit to all sockets
+    
+});
 
 socket.on('changenickname', function(new_username) {
    var temp;
