@@ -310,8 +310,8 @@ socket.on('updatingLobby', function(lobby) {
        if(i=1){
            var textNode = p2ReadyStatus;
        }*/
-       li.innerHTML = lobby[i] + "   ";
-       li.id = "player" + i+1;
+       li.innerHTML = lobby[i];
+       li.id = "player" + (i+1);
        lobbyRoom.appendChild(li);
     }
     form.removeChild(button);
@@ -327,7 +327,7 @@ socket.on('updatingLobby', function(lobby) {
     readybtn.id ="readyButton";
     
     readybtn.onclick = function() {
-        ready();
+        ready(playerNickname);
     }
      btn.onclick = function() { 
         leave(playerNickname);
@@ -361,6 +361,73 @@ if (btn!=null) {
     
 btn.addEventListener('click', join(playerNickname));
 }*/
+
+var ready = function(name) {
+    var lobbyRoom = document.getElementById("lobbyRoom");
+    var player1 = document.getElementById("player1");
+    var player2 = document.getElementById("player2");
+    var readyButton = document.getElementById("readyButton");
+    var form = document.getElementById("nickname");
+    
+    if(player1 != null){
+        if(player1.innerHTML == playerNickname) {
+            player1.innerHTML = playerNickname + " " + "Ready";
+            socket.emit('ready', playerNickname);
+        }
+    }
+    
+    if(player2 != null){
+        if(player2.innerHTML == playerNickname){
+            player2.innerHTML = playerNickname + " " + "Ready";
+            socket.emit('ready', playerNickname);
+        }
+    }
+    form.removeChild(readyButton);
+    
+    var unreadyButton = document.createElement("BUTTON");
+    var t = document.createTextNode("Unready");
+    unreadyButton.id = "unreadyButton";
+    unreadyButton.appendChild(t);
+    unreadyButton.onclick = function() {
+      unReady(playerNickname);  
+    };
+    form.appendChild(unreadyButton);
+    
+    
+    
+};
+
+var unReady = function(name) {
+    var lobbyRoom = document.getElementById("lobbyRoom");
+    var player1 = document.getElementById("player1");
+    var player2 = document.getElementById("player2");
+    var unreadyButton = document.getElementById("unreadyButton");
+    var form = document.getElementById("nickname");
+    
+    if(player1 != null){
+        if(player1.innerHTML == (playerNickname + " " + "Ready")) {
+            player1.innerHTML = playerNickname;
+            socket.emit('unready', playerNickname);
+        }
+    }
+    
+    if(player2 != null){
+        if(player2.innerHTML == (playerNickname + " " + "Ready")){
+            player2.innerHTML = playerNickname;
+            socket.emit('unready', playerNickname);
+        }
+    }
+    form.removeChild(unreadyButton);
+    var readyButton = document.createElement("BUTTON");
+    var t = document.createTextNode("Ready!");
+    readyButton.id = "readyButton";
+    readyButton.appendChild(t);
+    readyButton.onclick = function() {
+        ready(playerNickname);
+    }
+    form.appendChild(readyButton);
+}
+
 var join = function(name) { 
     console.log(playerNickname);
     socket.emit('updateLobby', name);
@@ -383,6 +450,51 @@ var leave = function() {
     form.appendChild(btn);
     socket.emit('leaveLobby');
 }
+
+
+socket.on('readyComplete', function(readyStatus) {
+    var form = document.getElementById("nickname");
+    var player1 = document.getElementById("player1");
+    var player2 = document.getElementById("player2");
+    console.log(player1.innerHTML);
+    console.log(readyStatus);
+    if(player1 != null){
+        var p1 = player1.innerHTML.split(" ")[0];
+        if(p1 == readyStatus[p1].name) {
+            player1.innerHTML = readyStatus[p1].name + " " + "Ready";
+        }
+    }
+    
+    if(player2 != null){
+        var p2 = player2.innerHTML.split(" ")[0];
+        if(player2.innerHTML == readyStatus[p2].name) {
+            player2.innerHTML = readyStatus[p2].name + " " + "Ready";
+        }
+    }
+    
+});
+
+socket.on('unreadyComplete', function(readyStatus) {
+    var form = document.getElementById("nickname");
+    var player1 = document.getElementById("player1");
+    var player2 = document.getElementById("player2");
+    console.log(player1.innerHTML.split(" ")[0]);
+    console.log(readyStatus);
+    if(player1 != null){
+        var p1 = player1.innerHTML.split(" ");
+        if(p1[0] == readyStatus[p1[0]].name) {
+            player1.innerHTML = readyStatus[p1[0]].name;
+        }
+    }
+    
+    if(player2 != null){
+        var p2 = player2.innerHTML.split(" ");
+        if(p2[0] == readyStatus[p2[0]].name) {
+            player2.innerHTML = readyStatus[p2[0]].name;
+        }
+    }
+    
+});
 //===========================================================================
 // AI Methods for computer
 //===========================================================================
