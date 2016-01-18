@@ -338,11 +338,14 @@ socket.on('updatingLobby', function(lobby) {
 
 socket.on('lobbyfull', function(lobby) {
     clientLobby = lobby;
+    console.log("Lobby is full right now!");
+
     var lobbyRoom = document.getElementById("lobbyRoom");
     lobbyRoom.innerHTML = "";
     var length = lobby.length;
     for(var i = 0; i < length; i++){
-     /*   if(i=0) {
+        /*
+       if(i=0) {
        var textNode = p1ReadyStatus;
        }
        if(i=1){
@@ -353,7 +356,7 @@ socket.on('lobbyfull', function(lobby) {
        li.innerHTML = lobby[i] + " ";
        lobbyRoom.appendChild(li);
     }
-
+    
 });
 
 /*var btn = document.getElementById("joinLobby");
@@ -437,8 +440,10 @@ var leave = function() {
     var form = document.getElementById("nickname"); //get form html content
     var button = document.getElementById("leaveLobby");
     var readyButton = document.getElementById("readyButton");
+    var unreadyButton = document.getElementById("unreadyButton");
     form.removeChild(button);
     form.removeChild(readyButton);
+    form.removeChild(unreadyButton);
     var btn = document.createElement("BUTTON");
     var t = document.createTextNode("Join Lobby");
     btn.appendChild(t);
@@ -449,6 +454,7 @@ var leave = function() {
     //btn.addEventListener('click', join(playerNickname));
     form.appendChild(btn);
     socket.emit('leaveLobby');
+    socket.emit('unready', playerNickname);
 }
 
 
@@ -456,19 +462,24 @@ socket.on('readyComplete', function(readyStatus) {
     var form = document.getElementById("nickname");
     var player1 = document.getElementById("player1");
     var player2 = document.getElementById("player2");
-    console.log(player1.innerHTML);
-    console.log(readyStatus);
+    //console.log(player1.innerHTML);
+    //console.log(readyStatus);
+    
     if(player1 != null){
         var p1 = player1.innerHTML.split(" ")[0];
         if(p1 == readyStatus[p1].name) {
-            player1.innerHTML = readyStatus[p1].name + " " + "Ready";
+            if(readyStatus[p1].ready == true){
+                player1.innerHTML = readyStatus[p1].name + " " + "Ready";
+            }
         }
     }
     
     if(player2 != null){
         var p2 = player2.innerHTML.split(" ")[0];
-        if(player2.innerHTML == readyStatus[p2].name) {
-            player2.innerHTML = readyStatus[p2].name + " " + "Ready";
+        if(p2 == readyStatus[p2].name) {
+            if(readyStatus[p2].ready == true) {
+                player2.innerHTML = readyStatus[p2].name + " " + "Ready";
+           }
         }
     }
     
@@ -478,19 +489,23 @@ socket.on('unreadyComplete', function(readyStatus) {
     var form = document.getElementById("nickname");
     var player1 = document.getElementById("player1");
     var player2 = document.getElementById("player2");
-    console.log(player1.innerHTML.split(" ")[0]);
-    console.log(readyStatus);
+    //console.log(player1.innerHTML.split(" ")[0]);
+    //console.log(readyStatus);
     if(player1 != null){
         var p1 = player1.innerHTML.split(" ");
         if(p1[0] == readyStatus[p1[0]].name) {
-            player1.innerHTML = readyStatus[p1[0]].name;
+            if(readyStatus[p1[0]].ready == false) {
+                player1.innerHTML = readyStatus[p1[0]].name;
+            }
         }
     }
     
     if(player2 != null){
         var p2 = player2.innerHTML.split(" ");
         if(p2[0] == readyStatus[p2[0]].name) {
-            player2.innerHTML = readyStatus[p2[0]].name;
+            if(readyStatus[p2[0]].ready == false){
+                player2.innerHTML = readyStatus[p2[0]].name;
+            }
         }
     }
     

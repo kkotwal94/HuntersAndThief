@@ -42,8 +42,9 @@ io.on('connection', function(socket) {
     numUsers++;
     socket.broadcast.emit('chat message', socket.username + ' has connected to the chat!')
     socket.emit('updaterooms',rooms,'Lobby');
-    socket.emit('lobbyfull', lobby);
-
+    //socket.emit('lobbyfull', lobby);
+    //socket.emit('readyComplete', readyStatus);
+    //socket.emit('unreadyComplete', readyStatus);
 });
 
   
