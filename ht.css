@@ -208,7 +208,14 @@ transition: background-color .15s ease-out;
 }
 
 #readyButton {
-		background-color: #001A33;
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border: 1px solid red;
+}
+
+#unreadyButton {
+	background-color: #001A33;
 	color: red;
 	padding: 20px;
 	border: 1px solid red;

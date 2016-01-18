@@ -16,6 +16,7 @@ var usernames = {};
 var numUsers = 0;
 var rooms = ['Lobby','Dota 2 Chat','Joke Chat'];
 var lobby = [];
+var readyStatus = {};
 //routing to our index.html
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -85,6 +86,15 @@ socket.on('changenickname', function(new_username) {
    io.sockets.in(socket.room).emit('chat message', socket.username + ': '+ msg); 
 });
 
+socket.on('ready', function(name) {
+    readyStatus[name] = {name: name, ready: true};
+    io.sockets.emit('readyComplete', readyStatus);
+});
+
+socket.on('unready', function(name) {
+    readyStatus[name] = {name: name, ready: false};
+    io.sockets.emit('unreadyComplete', readyStatus);
+});
   
 
   socket.on('disconnect', function() {
