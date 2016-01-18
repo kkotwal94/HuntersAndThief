@@ -396,17 +396,21 @@ createGrid();
 
 grid["(5,5)"].hasPlayer = true;
 grid["(5,5)"].playerType = "Hunter";
-grid["(5,5)"].playerTeam = "Red";
+grid["(5,5)"].playerTeam = "Blue";
 grid["(4,5)"].hasPlayer = true;
 grid["(4,5)"].playerType = "Thief";
-grid["(4,5)"].playerTeam = "Red";
-grid["(0,0)"].hasPlayer = true;
-grid["(0,0)"].playerType = "Hunter";
-grid["(0,0)"].playerTeam = "Blue";
+grid["(4,5)"].playerTeam = "Blue";
+grid["(4,4)"].hasPlayer = true;
+grid["(4,4)"].playerType = "Hunter";
+grid["(4,4)"].playerTeam = "Red";
+grid["(5,4)"].hasPlayer = true;
+grid["(5,4)"].playerType = "Thief";
+grid["(5,4)"].playerTeam = "Red";
 
-document.getElementById("(5,5)").classList.toggle("hasRedHunter");
-document.getElementById("(4,5)").classList.toggle("hasRedThief");
-document.getElementById("(0,0)").classList.toggle("hasBlueHunter");
+document.getElementById("(5,5)").classList.toggle("hasBlueHunter");
+document.getElementById("(4,5)").classList.toggle("hasBlueThief");
+document.getElementById("(4,4)").classList.toggle("hasRedHunter");
+document.getElementById("(5,4)").classList.toggle("hasRedThief");
 
 var changeColor = function() {
     if(grid[this.id].hasPlayer == true){
@@ -544,7 +548,7 @@ var changeColor = function() {
             currentSelectedTile = this.id;
             isSelected = true;
         }
-        else if(isSelected == true && this.classList.contains("selectedH")){
+        else if(isSelected == true && this.classList.contains("selectedH")){ //hunter is selected, click again to disable
             this.classList.toggle("selectedH");
             var cat = document.getElementById("("+(grid[this.id].locationX + 1)+","+grid[this.id].locationY+")");
             if(cat){
@@ -599,7 +603,7 @@ var changeColor = function() {
             currentSelectedTile = null;
             isSelected = false;
         }
-        else if(isSelected == true && this.classList.contains("selectedT")){
+        else if(isSelected == true && this.classList.contains("selectedT")){ //thief is selected, click again to disable
             this.classList.toggle("selectedT");
             for(var i=1; i<size; i++){
             var dog = document.getElementById("("+(grid[this.id].locationX - 1)+","+(grid[this.id].locationY+i)+")");
@@ -640,6 +644,121 @@ var changeColor = function() {
             currentSelectedTile = null;
             isSelected = false;
         }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Thief"){
+                 for(var i=1; i<size; i++){
+                 var dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+i)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                  dog = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY+i)+")");
+                  if(dog){
+                 dog.classList.toggle("validT");
+                  } 
+                  dog = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY-i)+")");
+                  if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY-i)+")");
+                 if(dog){
+                  dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX - i - 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX - i - 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+                 if(dog){
+                 dog.classList.toggle("validT");
+                  }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + i + 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+                 if(dog){
+                  dog.classList.toggle("validT");
+                 }
+                 dog = document.getElementById("("+(grid[currentSelectedTile].locationX + i + 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+                if(dog){
+                dog.classList.toggle("validT");
+                 } 
+             }
+            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[this.id].playerTeam+grid[this.id].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = "Thief";
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Hunter"){
+            var cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 2)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX + 1)+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+(grid[currentSelectedTile].locationX - 2)+","+grid[currentSelectedTile].locationY+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY+1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY+2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY-1)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            }
+            cat = document.getElementById("("+grid[currentSelectedTile].locationX+","+(grid[currentSelectedTile].locationY-2)+")");
+            if(cat){
+            cat.classList.toggle("validH");
+            } 
+            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[this.id].playerTeam+grid[this.id].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = "Hunter";
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+        }
+           
         }
     if(grid[this.id].hasPlayer == false){
         if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){
