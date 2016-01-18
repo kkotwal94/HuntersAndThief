@@ -221,6 +221,13 @@ var BFS = function() {
 //setting name
 var nameSet = false;
 
+var p1ReadyStatus = "Not Ready";
+var p2ReadyStatus = "Not Ready";
+
+var myPlayer = false;
+var enemyPlayer = false;
+
+var clientLobby =[];
 
 var inputMessage = function() {
     var chatInput = document.getElementById("chatinput").value;
@@ -246,7 +253,7 @@ var isSet = false;
 
 var setNickname = function() {
     //console.log(nameSet);
-    
+   
     var form = document.getElementById("nickname"); //get form html content
     playerNickname = document.getElementById("nickNames").value;
     var loggedin = document.getElementById("loggedin");
@@ -289,6 +296,7 @@ socket.on('updateusers', function(usernames) {
 	});
 	
 socket.on('updatingLobby', function(lobby) {
+    clientLobby = lobby;
     var form = document.getElementById("nickname"); //get form html content
     var lobbyRoom = document.getElementById("lobbyRoom");
     var button = document.getElementById("joinLobby");
@@ -296,27 +304,53 @@ socket.on('updatingLobby', function(lobby) {
     var length = lobby.length;
     for(var i = 0; i < length; i++){
        var li = document.createElement('li');
-       li.innerHTML = lobby[i];
+       /*if(i=0) {
+       var textNode = p1ReadyStatus;
+       }
+       if(i=1){
+           var textNode = p2ReadyStatus;
+       }*/
+       li.innerHTML = lobby[i] + "   ";
+       li.id = "player" + i+1;
        lobbyRoom.appendChild(li);
     }
     form.removeChild(button);
     var btn = document.createElement("BUTTON");
     var t = document.createTextNode("Leave Lobby");
+    var readybtn = document.createElement("BUTTON");
+    var t2 = document.createTextNode("Ready!");
+    
     btn.appendChild(t);
     btn.id ="leaveLobby";
+    
+    readybtn.appendChild(t2);
+    readybtn.id ="readyButton";
+    
+    readybtn.onclick = function() {
+        ready();
+    }
      btn.onclick = function() { 
         leave(playerNickname);
     };
     form.appendChild(btn);
+    form.appendChild(readybtn);
 });
 
 socket.on('lobbyfull', function(lobby) {
+    clientLobby = lobby;
     var lobbyRoom = document.getElementById("lobbyRoom");
     lobbyRoom.innerHTML = "";
     var length = lobby.length;
     for(var i = 0; i < length; i++){
+     /*   if(i=0) {
+       var textNode = p1ReadyStatus;
+       }
+       if(i=1){
+           var textNode = p2ReadyStatus;
+       }
+      */
        var li = document.createElement('li');
-       li.innerHTML = lobby[i];
+       li.innerHTML = lobby[i] + " ";
        lobbyRoom.appendChild(li);
     }
 
@@ -328,14 +362,16 @@ if (btn!=null) {
 btn.addEventListener('click', join(playerNickname));
 }*/
 var join = function(name) { 
-    console.log("we have been clicked!");
+    console.log(playerNickname);
     socket.emit('updateLobby', name);
 };
 
 var leave = function() {
     var form = document.getElementById("nickname"); //get form html content
     var button = document.getElementById("leaveLobby");
+    var readyButton = document.getElementById("readyButton");
     form.removeChild(button);
+    form.removeChild(readyButton);
     var btn = document.createElement("BUTTON");
     var t = document.createTextNode("Join Lobby");
     btn.appendChild(t);
