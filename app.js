@@ -91,6 +91,12 @@ socket.on('changenickname', function(new_username) {
     //removes the username from global array of username
     delete usernames[socket.username];
     numUsers--;
+    for(var i =0; i<lobby.length;i++){
+        if(socket.username == lobby[i]){
+            lobby.splice(i,1);
+        }
+    }
+    io.sockets.emit('lobbyfull', lobby); //emit to all sockets
     //update list of users in chat, client side
     io.emit('updateusers', usernames);
     //tell chat room user has left
