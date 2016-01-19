@@ -1153,7 +1153,7 @@ var drag = function(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
-var placeInGrid = function(ev) {
+var placeMineInGrid = function(ev) {
     ev.preventDefault();
     if(isTrapPlaced == true){
         grid[lastTrap].trap = false;
@@ -1169,10 +1169,13 @@ var placeInGrid = function(ev) {
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
     isTrapPlaced = true;
-    console.log(grid[ev.target.id].trap);
+    document.getElementById("drag1").setAttribute("draggable", "false");
+    document.getElementById("drag2").setAttribute("draggable", "false");
+    document.getElementById("drag3").setAttribute("draggable", "false");
+    document.getElementById(data).setAttribute("draggable", "true");
     
 }
-var placeInToolbox = function(ev) {
+var placeMineInToolbox = function(ev) {
     ev.preventDefault();
     grid[lastTrap].trap = false;
     var data = ev.dataTransfer.getData("text");
@@ -1180,6 +1183,9 @@ var placeInToolbox = function(ev) {
     isTrapPlaced=false;
     console.log(grid[lastTrap].trap);
     lastTrap = null;
+    document.getElementById("drag1").setAttribute("draggable", "true");
+    document.getElementById("drag2").setAttribute("draggable", "true");
+    document.getElementById("drag3").setAttribute("draggable", "true");
     
 }
 
@@ -1191,9 +1197,9 @@ var disableHunterToolbox = function(){
             document.getElementById("toolbox").style.visibility = "hidden";
 }
 var enableHunterToolbox = function(){
-            document.getElementById("gameContent").setAttribute("ondrop", "placeInGrid(event)"); 
+            document.getElementById("gameContent").setAttribute("ondrop", "placeMineInGrid(event)"); 
             document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
-            document.getElementById("toolbox").setAttribute("ondrop", "placeInToolbox(event)"); 
+            document.getElementById("toolbox").setAttribute("ondrop", "placeMineInToolbox(event)"); 
             document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
             document.getElementById("toolbox").style.visibility = "visible";
 }

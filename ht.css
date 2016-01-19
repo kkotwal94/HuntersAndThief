@@ -67,7 +67,7 @@ td.hasBlueUnderling{
 	background-repeat: no-repeat;
 	background-position: center;
 }
-#toolbox {margin-bottom:1%; width:100px;height:100px; visibility:hidden; border: 1px solid black;  }
+#toolbox {margin-bottom:1%; visibility:hidden; border: 1px solid black;  }
 #parent {
 }
 
