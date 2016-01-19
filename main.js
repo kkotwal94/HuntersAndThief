@@ -789,42 +789,62 @@ socket.on('redPlayerInitLoad', function(locations) {
     
     
     grid[locations['redpawn1']].hasPlayer = true;
+    grid[locations['redpawn1']].playerType = "Underling";
+    grid[locations['redpawn1']].playerTeam = "Red";
     grid[locations['redpawn1']].gold = false; 
     grid[locations['redpawn1']].trap = false;
     
     grid[locations['redpawn2']].hasPlayer = true;
+    grid[locations['redpawn2']].playerType = "Underling";
+    grid[locations['redpawn2']].playerTeam = "Red";
     grid[locations['redpawn2']].gold = false; 
     grid[locations['redpawn2']].trap = false;
     
     grid[locations['redpawn3']].hasPlayer = true;
+    grid[locations['redpawn3']].playerType = "Underling";
+    grid[locations['redpawn3']].playerTeam = "Red";
     grid[locations['redpawn3']].gold = false; 
     grid[locations['redpawn3']].trap = false;
     
     grid[locations['redpawn4']].hasPlayer = true;
+    grid[locations['redpawn4']].playerType = "Underling";
+    grid[locations['redpawn4']].playerTeam = "Red";
     grid[locations['redpawn4']].gold = false; 
     grid[locations['redpawn4']].trap = false;
     
     grid[locations['redpawn5']].hasPlayer = true;
+    grid[locations['redpawn5']].playerType = "Underling";
+    grid[locations['redpawn5']].playerTeam = "Red";
     grid[locations['redpawn5']].gold = false; 
     grid[locations['redpawn5']].trap = false;
     
     grid[locations['redpawn6']].hasPlayer = true;
+    grid[locations['redpawn6']].playerType = "Underling";
+    grid[locations['redpawn6']].playerTeam = "Red";
     grid[locations['redpawn6']].gold = false; 
     grid[locations['redpawn6']].trap = false;
     
     grid[locations['redpawn7']].hasPlayer = true;
+    grid[locations['redpawn7']].playerType = "Underling";
+    grid[locations['redpawn7']].playerTeam = "Red";
     grid[locations['redpawn7']].gold = false; 
     grid[locations['redpawn7']].trap = false;
     
     grid[locations['redpawn8']].hasPlayer = true;
+    grid[locations['redpawn8']].playerType = "Underling";
+    grid[locations['redpawn8']].playerTeam = "Red";
     grid[locations['redpawn8']].gold = false; 
     grid[locations['redpawn8']].trap = false;
     
     grid[locations['redpawn9']].hasPlayer = true;
+    grid[locations['redpawn9']].playerType = "Underling";
+    grid[locations['redpawn9']].playerTeam = "Red";
     grid[locations['redpawn9']].gold = false; 
     grid[locations['redpawn9']].trap = false;
     
     grid[locations['redpawn10']].hasPlayer = true;
+    grid[locations['redpawn10']].playerType = "Underling";
+    grid[locations['redpawn10']].playerTeam = "Red";
     grid[locations['redpawn10']].gold = false; 
     grid[locations['redpawn10']].trap = false;
     //console.log("RedGold: " + locations['redgoldloc']);
@@ -873,42 +893,62 @@ socket.on('bluePlayerInitLoad', function(locations) {
     
     
     grid[locations['bluepawn1']].hasPlayer =true;
+    grid[locations['bluepawn1']].playerType = "Underling";
+    grid[locations['bluepawn1']].playerTeam = "Blue";
     grid[locations['bluepawn1']].gold =false;
     grid[locations['bluepawn1']].trap =false;
     
     grid[locations['bluepawn2']].hasPlayer =true;
+    grid[locations['bluepawn2']].playerType = "Underling";
+    grid[locations['bluepawn2']].playerTeam = "Blue";
     grid[locations['bluepawn2']].gold =false;
     grid[locations['bluepawn2']].trap =false;
     
     grid[locations['bluepawn3']].hasPlayer =true;
+    grid[locations['bluepawn3']].playerType = "Underling";
+    grid[locations['bluepawn3']].playerTeam = "Blue";
     grid[locations['bluepawn3']].gold =false;
     grid[locations['bluepawn3']].trap =false;
     
     grid[locations['bluepawn4']].hasPlayer =true;
+    grid[locations['bluepawn4']].playerType = "Underling";
+    grid[locations['bluepawn4']].playerTeam = "Blue";
     grid[locations['bluepawn4']].gold =false;
     grid[locations['bluepawn4']].trap =false;
     
     grid[locations['bluepawn5']].hasPlayer =true;
+    grid[locations['bluepawn5']].playerType = "Underling";
+    grid[locations['bluepawn5']].playerTeam = "Blue";
     grid[locations['bluepawn5']].gold =false;
     grid[locations['bluepawn5']].trap =false;
     
     grid[locations['bluepawn6']].hasPlayer =true;
+    grid[locations['bluepawn6']].playerType = "Underling";
+    grid[locations['bluepawn6']].playerTeam = "Blue";
     grid[locations['bluepawn6']].gold =false;
     grid[locations['bluepawn6']].trap =false;
     
     grid[locations['bluepawn7']].hasPlayer =true;
+    grid[locations['bluepawn7']].playerType = "Underling";
+    grid[locations['bluepawn7']].playerTeam = "Blue";
     grid[locations['bluepawn7']].gold =false;
     grid[locations['bluepawn7']].trap =false;
     
     grid[locations['bluepawn8']].hasPlayer =true;
+    grid[locations['bluepawn8']].playerType = "Underling";
+    grid[locations['bluepawn8']].playerTeam = "Blue";
     grid[locations['bluepawn8']].gold =false;
     grid[locations['bluepawn8']].trap =false;
     
     grid[locations['bluepawn9']].hasPlayer =true;
+    grid[locations['bluepawn9']].playerType = "Underling";
+    grid[locations['bluepawn9']].playerTeam = "Blue";
     grid[locations['bluepawn9']].gold =false;
     grid[locations['bluepawn9']].trap =false;
     
     grid[locations['bluepawn10']].hasPlayer =true;
+    grid[locations['bluepawn10']].playerType = "Underling";
+    grid[locations['bluepawn10']].playerTeam = "Blue";
     grid[locations['bluepawn10']].gold =false;
     grid[locations['bluepawn10']].trap =false;
     
@@ -1531,8 +1571,6 @@ var movementLogic = function() {
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Hunter";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
-
-            grid[currentSelectedTile].hasPlayer = false;
             
             if(grid[currentSelectedTile].playerTeam == "Red"){
                 redHunter.updateLocation(this.id); 
@@ -1548,6 +1586,7 @@ var movementLogic = function() {
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
             document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[currentSelectedTile].hasPlayer = false;
             grid[currentSelectedTile].playerTeam = null;
             grid[currentSelectedTile].playerType = null;
             currentValidMoveLocations = [];
@@ -1561,11 +1600,11 @@ var movementLogic = function() {
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Underling";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
-            grid[currentSelectedTile].hasPlayer = false;
             underlingDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedU");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
             document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[currentSelectedTile].hasPlayer = false;
             grid[currentSelectedTile].playerTeam = null;
             grid[currentSelectedTile].playerType = null;
             currentValidMoveLocations = [];
@@ -1677,6 +1716,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling1") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn1.updateLocation(ev.target.id);
         
@@ -1686,6 +1726,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling2") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn2.updateLocation(ev.target.id);
         
@@ -1694,6 +1735,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling3") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn3.updateLocation(ev.target.id);
         
@@ -1701,6 +1743,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling4") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn4.updateLocation(ev.target.id);
         
@@ -1708,6 +1751,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling5") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn5.updateLocation(ev.target.id);
         
@@ -1715,6 +1759,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling6") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn6.updateLocation(ev.target.id);
         
@@ -1722,6 +1767,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling7") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn7.updateLocation(ev.target.id);
         
@@ -1729,6 +1775,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling8") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn8.updateLocation(ev.target.id);
         
@@ -1736,6 +1783,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling9") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn9.updateLocation(ev.target.id);
         
@@ -1743,6 +1791,7 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling10") {
         grid[ev.target.id].playerType = "Underling";
         grid[ev.target.id].playerTeam = "Red";
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false");
         redpawn10.updateLocation(ev.target.id);
         
@@ -1751,6 +1800,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling1") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn1.updateLocation(ev.target.id);    
     }
@@ -1758,6 +1808,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling2") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn2.updateLocation(ev.target.id);    
     }
@@ -1765,6 +1816,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling3") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn3.updateLocation(ev.target.id);    
     }
@@ -1772,6 +1824,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling4") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn4.updateLocation(ev.target.id);    
     }
@@ -1779,6 +1832,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling5") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn5.updateLocation(ev.target.id);    
     }
@@ -1786,6 +1840,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling6") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn6.updateLocation(ev.target.id);    
     }
@@ -1793,6 +1848,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling7") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn7.updateLocation(ev.target.id);    
     }
@@ -1800,6 +1856,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling8") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn8.updateLocation(ev.target.id);    
     }
@@ -1807,6 +1864,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling9") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn9.updateLocation(ev.target.id);    
     }
@@ -1814,6 +1872,7 @@ var placeUnitsInGrid = function(ev) {
     if(data =="blueunderling10") {
         grid[ev.target.id].playerType = "Underling";     
         grid[ev.target.id].playerTeam = "Blue"; 
+        grid[ev.target.id].hasPlayer = true;
         document.getElementById(data).setAttribute("draggable", "false"); 
         bluepawn10.updateLocation(ev.target.id);    
     }
@@ -1821,6 +1880,7 @@ var placeUnitsInGrid = function(ev) {
     else if(data == "redhunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Red"; 
+    grid[ev.target.id].hasPlayer = true;
     //document.getElementById(ev.target.id).classList.toggle("hasRedHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     redHunter.updateLocation(ev.target.id);
@@ -1828,6 +1888,7 @@ var placeUnitsInGrid = function(ev) {
     else if (data == "redthief1"){
     grid[ev.target.id].playerType = "Thief";     
     grid[ev.target.id].playerTeam = "Red"; 
+    grid[ev.target.id].hasPlayer = true;
     //document.getElementById(ev.target.id).classList.toggle("hasRedThief");
     document.getElementById(data).setAttribute("draggable", "false");
     redthief.updateLocation(ev.target.id);
@@ -1835,13 +1896,15 @@ var placeUnitsInGrid = function(ev) {
     else if(data == "bluehunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    grid[ev.target.id].hasPlayer = true;    
     //document.getElementById(ev.target.id).classList.toggle("hasBlueHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     blueHunter.updateLocation(ev.target.id);
     }
     else if(data == "bluethief1"){
     grid[ev.target.id].playerType = "Thief";     
-    grid[ev.target.id].playerTeam = "Blue"; 
+    grid[ev.target.id].playerTeam = "Blue";
+    grid[ev.target.id].hasPlayer = true; 
     //document.getElementById(ev.target.id).classList.toggle("hasBlueThief");
     document.getElementById(data).setAttribute("draggable", "false");
     bluethief.updateLocation(ev.target.id);
