@@ -17,6 +17,10 @@ var numUsers = 0;
 var rooms = ['Lobby','Dota 2 Chat','Joke Chat'];
 var lobby = [];
 var readyStatus = {};
+
+var clients = {};
+var blueplayer = {};
+var redplayer = {};
 //routing to our index.html
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -31,6 +35,7 @@ io.on('connection', function(socket) {
   console.log("User has connected");
   socket.on('adduser', function(username) {
     socket.username = username;
+    clients[socket.username] = {id: socket.id, username: socket.username};
     //adding our name to the global scope
     //console.log(username);
     socket.room = 'Lobby';
@@ -42,8 +47,9 @@ io.on('connection', function(socket) {
     numUsers++;
     socket.broadcast.emit('chat message', socket.username + ' has connected to the chat!')
     socket.emit('updaterooms',rooms,'Lobby');
-    socket.emit('lobbyfull', lobby);
-
+    //socket.emit('lobbyfull', lobby);
+    //socket.emit('readyComplete', readyStatus);
+    //socket.emit('unreadyComplete', readyStatus);
 });
 
   
@@ -51,7 +57,7 @@ socket.on('updateLobby', function(username) {
     if(lobby.length < 2) {
         lobby.push(username); //set a member in the lobby to be that username
         console.log(lobby);
-        io.sockets.emit('updatingLobby', lobby);
+        io.sockets.emit('updatingLobby', lobby, readyStatus);
         
     }
     
@@ -88,6 +94,7 @@ socket.on('changenickname', function(new_username) {
 
 socket.on('ready', function(name) {
     readyStatus[name] = {name: name, ready: true};
+    console.log("server was hit!");
     io.sockets.emit('readyComplete', readyStatus);
 });
 
@@ -96,6 +103,17 @@ socket.on('unready', function(name) {
     io.sockets.emit('unreadyComplete', readyStatus);
 });
   
+socket.on('initGame', function(player1, player2) {
+    var p1 = clients[player1].id;
+    var p2 = clients[player2].id;
+    
+    blueplayer[player1] = {name: player1, hasWon: false, hasLost: false, isTurn: false, initStage: true};
+    redplayer[player2] = {name: player2, hasWon: false, hasLost: false, isTurn: false, initStage: true};
+   
+   io.sockets.connected[p1].emit('blueplayerinit', blueplayer[player1]); 
+   io.sockets.connected[p2].emit('redplayerinit', redplayer[player2]);
+    
+});
 
   socket.on('disconnect', function() {
     //removes the username from global array of username
