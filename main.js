@@ -786,6 +786,7 @@ socket.on('redPlayerInitLoad', function(locations) {
     grid[locations['redgoldloc']].hasPlayer = false;
     grid[locations['redgoldloc']].gold = true; 
     grid[locations['redgoldloc']].trap = false;
+    grid[locations['redgoldloc']].playerTeam = "Red";
     
     
     grid[locations['redpawn1']].hasPlayer = true;
@@ -889,6 +890,7 @@ socket.on('bluePlayerInitLoad', function(locations) {
     
     grid[locations['bluegoldloc']].hasPlayer = false;
     grid[locations['bluegoldloc']].gold = true; 
+    grid[locations['bluegoldloc']].playerTeam = "Blue"; 
     grid[locations['bluegoldloc']].trap = false;
     
     
@@ -1539,7 +1541,118 @@ var movementLogic = function() {
            
         }
     if(grid[this.id].hasPlayer == false){ //making moves and mine interaction
-        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){ //thief making valid move
+     
+        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && this.classList.contains("hasGoldInvis") && grid[currentSelectedTile].playerType == "Thief"){ //thief finding enemy gold
+            thiefDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            this.classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            this.classList.toggle("hasGoldInvis");
+            grid[this.id].gold = false;
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = grid[currentSelectedTile].playerType;
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
+            alert("Thief found the gold, you win!");
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && this.classList.contains("hasGoldInvis") && grid[currentSelectedTile].playerType == "Hunter"){ //hunter finding enemy gold
+            hunterDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);      
+            this.classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            this.classList.toggle("hasGoldInvis");
+            grid[this.id].gold = false;
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = grid[currentSelectedTile].playerType;
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+            disableHunterToolbox();
+            alert("Hunter found the gold, you win!");
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && this.classList.contains("hasGoldInvis") && grid[currentSelectedTile].playerType == "Underling"){ //underling finding enemy gold
+            underlingDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);         
+            this.classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            this.classList.toggle("hasGoldInvis");
+            grid[this.id].gold = false;
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = grid[currentSelectedTile].playerType;
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
+            alert("Underling found the gold, you win!");
+        } 
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == true && grid[currentSelectedTile].playerType == "Thief"){ //thief hitting enemy mine
+            thiefDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+            alert("Thief hit a mine!");
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == true && grid[currentSelectedTile].playerType == "Hunter"){ //hunter hitting enemy mine
+            hunterDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+            disableHunterToolbox();
+            alert("Hunter hit a mine!");
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == true && grid[currentSelectedTile].playerType == "Underling"){ //underling hitting enemy mine
+            underlingDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+            alert("Underling hit a mine!");
+        }    
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){ //thief making valid move
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Thief";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
@@ -1612,55 +1725,6 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Thief"){ //thief hitting enemy mine
-            thiefDeselect(currentSelectedTile);
-            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
-            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
-            grid[this.id].trap = false;
-            grid[this.id].hasPlayer = false;
-            grid[this.id].playerType = "null";
-            grid[this.id].playerTeam = "null";
-            grid[currentSelectedTile].playerTeam = null;
-            grid[currentSelectedTile].playerType = null;
-            grid[currentSelectedTile].hasPlayer = false;
-            currentValidMoveLocations = [];
-            currentNumOfValid = 0;
-            currentSelectedTile = null;
-            isSelected = false; 
-        }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Hunter"){ //hunter hitting enemy mine
-            hunterDeselect(currentSelectedTile);
-            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
-            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
-            grid[this.id].trap = false;
-            grid[this.id].hasPlayer = false;
-            grid[this.id].playerType = "null";
-            grid[this.id].playerTeam = "null";
-            grid[currentSelectedTile].playerTeam = null;
-            grid[currentSelectedTile].playerType = null;
-            grid[currentSelectedTile].hasPlayer = false;
-            currentValidMoveLocations = [];
-            currentNumOfValid = 0;
-            currentSelectedTile = null;
-            isSelected = false; 
-            disableHunterToolbox();
-        }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Underling"){ //underling hitting enemy mine
-            underlingDeselect(currentSelectedTile);
-            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
-            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
-            grid[this.id].trap = false;
-            grid[this.id].hasPlayer = false;
-            grid[this.id].playerType = "null";
-            grid[this.id].playerTeam = "null";
-            grid[currentSelectedTile].playerTeam = null;
-            grid[currentSelectedTile].playerType = null;
-            grid[currentSelectedTile].hasPlayer = false;
-            currentValidMoveLocations = [];
-            currentNumOfValid = 0;
-            currentSelectedTile = null;
-            isSelected = false; 
-        }   
         } 
 };
 
