@@ -126,6 +126,7 @@ socket.on('finishedInit', function(locations, playerName) {
     if(locations['init'] == "redtrue")  {
         redinit = true;
         locations['name'] = playerName;
+        locations['enemy'] = blueplayerName;
         redplayer[playerName].locations = locations;
         io.sockets.connected[clients[playerName].id].emit('waitFinishInit');
     }  
@@ -133,6 +134,7 @@ socket.on('finishedInit', function(locations, playerName) {
     if(locations['init'] == "bluetrue") {
         blueinit = true;
         locations['name'] = playerName;
+        locations['enemy'] = redplayerName;
         blueplayer[playerName].locations = locations;
         blueplayer[playerName].name = playerName;
         io.sockets.connected[clients[playerName].id].emit('waitFinishInit');

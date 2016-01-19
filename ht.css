@@ -61,12 +61,28 @@ td.hasBlueThief{
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
 td.hasBlueUnderling{
 	background-image: url("https://placekitten.com/g/40/40");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
+td.hasGoldInvis {
+
+
+	
+}
+
+td.hasGold {
+	background-image: url("https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
 #toolbox {margin-bottom:1%; visibility:hidden; border: 1px solid black;  }
 #parent {
 }
