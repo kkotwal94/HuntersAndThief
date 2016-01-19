@@ -221,8 +221,8 @@ var BFS = function() {
 //setting name
 var nameSet = false;
 
-var p1ReadyStatus = "Not Ready";
-var p2ReadyStatus = "Not Ready";
+var p1ReadyStatus = false;
+var p2ReadyStatus = false;
 
 var myPlayer = false;
 var enemyPlayer = false;
@@ -295,45 +295,40 @@ socket.on('updateusers', function(usernames) {
 	});
 	});
 	
-socket.on('updatingLobby', function(lobby) {
+socket.on('updatingLobby', function(lobby, readyStatus) {
     clientLobby = lobby;
     var form = document.getElementById("nickname"); //get form html content
     var lobbyRoom = document.getElementById("lobbyRoom");
     var button = document.getElementById("joinLobby");
+    var str;
     lobbyRoom.innerHTML = "";
     var length = lobby.length;
     for(var i = 0; i < length; i++){
        var li = document.createElement('li');
-       /*if(i=0) {
-       var textNode = p1ReadyStatus;
+       
+      /* console.log(readyStatus[lobby[i]]);
+       if(readyStatus[lobby[i]] != undefined || null) {
+           if(readyStatus[lobby[i]].ready == false) {
+               str = "Not Ready";
+               li.innerHTML = lobby[i] + " " + str;
+              li.id = "player" + (i+1);
+                lobbyRoom.appendChild(li);
+           }
+           
+           if(readyStatus[lobby[i]].ready == true) {
+               li.innerHTML = lobby[i] + " " + str;
+       li.id = "player" + (i+1);
+       lobbyRoom.appendChild(li);
+               str = "Ready";
+           }
        }
-       if(i=1){
-           var textNode = p2ReadyStatus;
-       }*/
+     */
+        
        li.innerHTML = lobby[i];
        li.id = "player" + (i+1);
        lobbyRoom.appendChild(li);
     }
-    form.removeChild(button);
-    var btn = document.createElement("BUTTON");
-    var t = document.createTextNode("Leave Lobby");
-    var readybtn = document.createElement("BUTTON");
-    var t2 = document.createTextNode("Ready!");
     
-    btn.appendChild(t);
-    btn.id ="leaveLobby";
-    
-    readybtn.appendChild(t2);
-    readybtn.id ="readyButton";
-    
-    readybtn.onclick = function() {
-        ready(playerNickname);
-    }
-     btn.onclick = function() { 
-        leave(playerNickname);
-    };
-    form.appendChild(btn);
-    form.appendChild(readybtn);
 });
 
 socket.on('lobbyfull', function(lobby) {
@@ -371,16 +366,29 @@ var ready = function(name) {
     var player2 = document.getElementById("player2");
     var readyButton = document.getElementById("readyButton");
     var form = document.getElementById("nickname");
-    
+   
+   // console.log("player1: " + player1.innerHTML);
+    //console.log("player2: " + player2.innerHTML);
+   // console.log("playerNickName: " + playerNickname);
+   // console.log("player1: " + player1.innerHTML);
+    //console.log("player2: " + player2.innerHTML);
+    //console.log(playerNickname == player1.innerHTML);
+    //console.log(playerNickname === player2.innerHTML);
+   
     if(player1 != null){
-        if(player1.innerHTML == playerNickname) {
+        //console.log("hitplayer1");
+        var p1 = player1.innerHTML.split(" ")[0];
+        if(p1 == playerNickname) {
+            p1ReadyStatus = true;
             player1.innerHTML = playerNickname + " " + "Ready";
             socket.emit('ready', playerNickname);
         }
     }
     
     if(player2 != null){
-        if(player2.innerHTML == playerNickname){
+        var p2 = player2.innerHTML.split(" ")[0];
+        if(p2 == playerNickname){
+            p2ReadyStatus = true;
             player2.innerHTML = playerNickname + " " + "Ready";
             socket.emit('ready', playerNickname);
         }
@@ -395,8 +403,21 @@ var ready = function(name) {
       unReady(playerNickname);  
     };
     form.appendChild(unreadyButton);
+    console.log(p1ReadyStatus);
+    console.log(p2ReadyStatus);
     
-    
+    if(player1 != null && player2 != null) {
+        if((playerNickname == player1.innerHTML.split(" ")[0]) || (playerNickname == player2.innerHTML.split(" ")[0])) {
+            if(p1ReadyStatus && p2ReadyStatus) {
+                var startGame = document.createElement('BUTTON');
+                var text = document.createTextNode("Start Game!");
+                startGame.id = "startGame";
+                startGame.appendChild(text);
+                //startGame.onclick ...
+                form.appendChild(startGame);
+            }
+        }
+    }
     
 };
 
@@ -406,11 +427,17 @@ var unReady = function(name) {
     var player2 = document.getElementById("player2");
     var unreadyButton = document.getElementById("unreadyButton");
     var form = document.getElementById("nickname");
+    var startButton = document.getElementById("startGame");
+    
+    if(startButton != null) {
+        form.removeChild(startButton);
+    }
     
     if(player1 != null){
         if(player1.innerHTML == (playerNickname + " " + "Ready")) {
             player1.innerHTML = playerNickname;
             socket.emit('unready', playerNickname);
+            p1ReadyStatus = false;
         }
     }
     
@@ -418,6 +445,7 @@ var unReady = function(name) {
         if(player2.innerHTML == (playerNickname + " " + "Ready")){
             player2.innerHTML = playerNickname;
             socket.emit('unready', playerNickname);
+            p2ReadyStatus = false;
         }
     }
     form.removeChild(unreadyButton);
@@ -432,7 +460,34 @@ var unReady = function(name) {
 }
 
 var join = function(name) { 
-    console.log(playerNickname);
+   // console.log(playerNickname);
+    var form = document.getElementById("nickname"); //get form html content
+    var lobbyRoom = document.getElementById("lobbyRoom");
+    var button = document.getElementById("joinLobby");
+    
+    if(button!=null){
+    form.removeChild(button);
+    };
+    var btn = document.createElement("BUTTON");
+    var t = document.createTextNode("Leave Lobby");
+    var readybtn = document.createElement("BUTTON");
+    var t2 = document.createTextNode("Ready!");
+    
+    btn.appendChild(t);
+    btn.id ="leaveLobby";
+    
+    readybtn.appendChild(t2);
+    readybtn.id ="readyButton";
+    
+    readybtn.onclick = function() {
+        ready(playerNickname);
+    }
+     btn.onclick = function() { 
+        leave(playerNickname);
+    };
+    form.appendChild(btn);
+    form.appendChild(readybtn);
+    
     socket.emit('updateLobby', name);
 };
 
@@ -442,8 +497,12 @@ var leave = function() {
     var readyButton = document.getElementById("readyButton");
     var unreadyButton = document.getElementById("unreadyButton");
     form.removeChild(button);
+    if(readyButton != null) {
     form.removeChild(readyButton);
+    }
+    if(unreadyButton != null) {
     form.removeChild(unreadyButton);
+    }
     var btn = document.createElement("BUTTON");
     var t = document.createTextNode("Join Lobby");
     btn.appendChild(t);
@@ -454,7 +513,7 @@ var leave = function() {
     //btn.addEventListener('click', join(playerNickname));
     form.appendChild(btn);
     socket.emit('leaveLobby');
-    socket.emit('unready', playerNickname);
+    //socket.emit('unready', playerNickname);
 }
 
 
@@ -464,12 +523,20 @@ socket.on('readyComplete', function(readyStatus) {
     var player2 = document.getElementById("player2");
     //console.log(player1.innerHTML);
     //console.log(readyStatus);
+    //console.log("HIT2");
+    
+    var startButton = document.getElementById("startGame");
+    
+    if(startButton != null) {
+        form.removeChild(startButton);
+    }
     
     if(player1 != null){
         var p1 = player1.innerHTML.split(" ")[0];
         if(p1 == readyStatus[p1].name) {
             if(readyStatus[p1].ready == true){
                 player1.innerHTML = readyStatus[p1].name + " " + "Ready";
+                p1ReadyStatus = true;
             }
         }
     }
@@ -479,7 +546,23 @@ socket.on('readyComplete', function(readyStatus) {
         if(p2 == readyStatus[p2].name) {
             if(readyStatus[p2].ready == true) {
                 player2.innerHTML = readyStatus[p2].name + " " + "Ready";
+                p2ReadyStatus = true;
            }
+        }
+    }
+    
+     if(player1 != null && player2 != null) {
+        if((playerNickname == player1.innerHTML.split(" ")[0]) || (playerNickname == player2.innerHTML.split(" ")[0])) {
+            if(p1ReadyStatus && p2ReadyStatus) {
+                var startGame = document.createElement('BUTTON');
+                var text = document.createTextNode("Start Game!");
+                startGame.id = "startGame";
+                startGame.appendChild(text);
+                startGame.onclick = function() {
+                    initGame();
+                }
+                form.appendChild(startGame);
+            }
         }
     }
     
@@ -489,6 +572,11 @@ socket.on('unreadyComplete', function(readyStatus) {
     var form = document.getElementById("nickname");
     var player1 = document.getElementById("player1");
     var player2 = document.getElementById("player2");
+    var startButton = document.getElementById("startGame");
+    
+    if(startButton != null) {
+        form.removeChild(startButton);
+    }
     //console.log(player1.innerHTML.split(" ")[0]);
     //console.log(readyStatus);
     if(player1 != null){
@@ -496,6 +584,7 @@ socket.on('unreadyComplete', function(readyStatus) {
         if(p1[0] == readyStatus[p1[0]].name) {
             if(readyStatus[p1[0]].ready == false) {
                 player1.innerHTML = readyStatus[p1[0]].name;
+                p1ReadyStatus = false;
             }
         }
     }
@@ -505,11 +594,100 @@ socket.on('unreadyComplete', function(readyStatus) {
         if(p2[0] == readyStatus[p2[0]].name) {
             if(readyStatus[p2[0]].ready == false){
                 player2.innerHTML = readyStatus[p2[0]].name;
+                p2ReadyStatus = false;
             }
         }
     }
     
 });
+
+socket.on('blueplayerinit', function(player) {
+   console.log("I am the blue player " + playerNickname); 
+    
+    var finishTurnButton = document.createElement("BUTTON");
+    var textNode = document.createTextNode("End Initialization");
+    var form = document.getElementById("nickname");
+    finishTurnButton.appendChild(textNode);
+    finishTurnButton.id = "blueTurnButton";
+    finishTurnButton.onclick = function() {
+        endblueturninit();
+    }
+    form.appendChild(finishTurnButton);
+    
+    grid["(9,9)"].hasPlayer = true;
+    grid["(9,9)"].playerType = "Hunter";
+    grid["(9,9)"].playerTeam = "Blue";
+    
+    grid["(9,8)"].hasPlayer = true;
+    grid["(9,8)"].playerType = "Thief";
+    grid["(9,8)"].playerTeam = "Blue";
+    
+    document.getElementById("(9,9)").classList.toggle("hasBlueHunter");
+    document.getElementById("(9,8)").classList.toggle("hasBlueThief");
+});
+
+var endblueturninit = function() {
+    console.log("My blue turn init has ended");
+};
+
+socket.on('redplayerinit', function(player) {
+    console.log("I am the red player " + playerNickname);
+    
+    var finishTurnButton = document.createElement("BUTTON");
+    var textNode = document.createTextNode("End Initialization");
+    var form = document.getElementById("nickname");
+    finishTurnButton.appendChild(textNode);
+    finishTurnButton.id = "redTurnButton";
+    finishTurnButton.onclick = function() {
+        endredturninit();
+    };
+    form.appendChild(finishTurnButton);
+    
+    grid["(1,1)"].hasPlayer = true;
+    grid["(1,1)"].playerType = "Hunter";
+    grid["(1,1)"].playerTeam = "Red";
+    
+    grid["(1,2)"].hasPlayer = true;
+    grid["(1,2)"].playerType = "Thief";
+    grid["(1,2)"].playerTeam = "Red";
+    
+    document.getElementById("(1,1)").classList.toggle("hasRedHunter");
+    document.getElementById("(1,2)").classList.toggle("hasRedThief");
+});
+
+var endredturninit = function() {
+    console.log("My red turn init has ended");
+}
+
+
+var initGame = function() {
+    console.log("starting game...");
+    var player1 = document.getElementById("player1");
+    var player2 = document.getElementById("player2");
+    player1 = player1.innerHTML.split(" ")[0];
+    player2 = player2.innerHTML.split(" ")[0];
+    socket.emit('initGame', player1, player2);
+    
+    /*
+    grid["(5,5)"].hasPlayer = true;
+    grid["(5,5)"].playerType = "Hunter";
+    grid["(5,5)"].playerTeam = "Blue";
+    grid["(4,5)"].hasPlayer = true;
+    grid["(4,5)"].playerType = "Thief";
+    grid["(4,5)"].playerTeam = "Blue";
+    grid["(4,4)"].hasPlayer = true;
+    grid["(4,4)"].playerType = "Hunter";
+    grid["(4,4)"].playerTeam = "Red";
+    grid["(5,4)"].hasPlayer = true;
+    grid["(5,4)"].playerType = "Thief";
+    grid["(5,4)"].playerTeam = "Red";
+    
+    
+    
+    document.getElementById("(4,4)").classList.toggle("hasRedHunter");
+    document.getElementById("(5,4)").classList.toggle("hasRedThief");
+    */
+}
 //===========================================================================
 // AI Methods for computer
 //===========================================================================
@@ -521,23 +699,9 @@ socket.on('unreadyComplete', function(readyStatus) {
 
 createGrid();
 
-grid["(5,5)"].hasPlayer = true;
-grid["(5,5)"].playerType = "Hunter";
-grid["(5,5)"].playerTeam = "Blue";
-grid["(4,5)"].hasPlayer = true;
-grid["(4,5)"].playerType = "Thief";
-grid["(4,5)"].playerTeam = "Blue";
-grid["(4,4)"].hasPlayer = true;
-grid["(4,4)"].playerType = "Hunter";
-grid["(4,4)"].playerTeam = "Red";
-grid["(5,4)"].hasPlayer = true;
-grid["(5,4)"].playerType = "Thief";
-grid["(5,4)"].playerTeam = "Red";
 
-document.getElementById("(5,5)").classList.toggle("hasBlueHunter");
-document.getElementById("(4,5)").classList.toggle("hasBlueThief");
-document.getElementById("(4,4)").classList.toggle("hasRedHunter");
-document.getElementById("(5,4)").classList.toggle("hasRedThief");
+
+
 
 var hunterInitialSelect = function(clickedTile) {
     var cat = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");

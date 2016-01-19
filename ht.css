@@ -220,3 +220,26 @@ transition: background-color .15s ease-out;
 	padding: 20px;
 	border: 1px solid red;
 }
+
+#startGame {
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border: 1px solid green;
+}
+
+#redTurnButton {
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border: 1px solid yellow;
+
+}
+
+
+#blueTurnButton {
+	background-color: #001A33;
+	color: red;
+	padding: 20px;
+	border: 1px solid yellow;
+}
