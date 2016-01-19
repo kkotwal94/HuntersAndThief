@@ -42,7 +42,7 @@ $table.id = "gameGrid"; //setting table id
 
 //!IMPORTANT => WE SHOULD PROBABLY MAKE A HUNTER AND A THIEF A CLASS, SO WE COULD HAVE MULTIPLE CHARACTERS IF WE WANTED TO FOR SOME REASON, LIKE HUNTER AND THIEF PARTY 5, or have multiple games going on
 
-var hero = function(type, nickname, location) {
+var Hero = function(type, nickname, location) {
     this.alive = true;
     this.currentTraps = {};
     this.nickname = nickname;
@@ -91,8 +91,13 @@ var hero = function(type, nickname, location) {
         this.coordinateLocation = coordinates;
     }
 
-}
+};
 
+var redthief = new Hero("RedThief", playerNickname+" redThief", '(1,2)');
+var redHunter = new Hero("RedHunter", playerNickname +"redHunter", '(1,1)');
+
+var bluethief = new Hero("BlueThief", playerNickname + "blueThief", '(9,8)');
+var blueHunter = new Hero("BlueHunter", playerNickname + "blueHunter", '(9,9)');
 
 //===========================================================================
 // Create grid and fill grid{} object with initialized objects for each key
@@ -631,6 +636,13 @@ socket.on('blueplayerinit', function(player) {
 
 var endblueturninit = function() {
     console.log("My blue turn init has ended");
+    var bluethiefloc = bluethief.location;
+    var bluehunterloc = blueHunter.location;
+    var locations = {};
+    locations["bluethiefloc"] = bluethiefloc;
+    locations["bluehunterloc"] = bluehunterloc;
+    locations["init"] = "bluetrue"; 
+    socket.emit('finishedInit', locations, playerNickname);
 };
 
 socket.on('redplayerinit', function(player) {
@@ -659,9 +671,60 @@ socket.on('redplayerinit', function(player) {
 });
 
 var endredturninit = function() {
-    console.log("My red turn init has ended");
+    console.log("My blue turn init has ended");
+    var redthiefloc = redthief.location;
+    var redhunterloc = redHunter.location;
+    var mine1, mine2, mine3, mine4, mine5;
+    var redthiefdecoy;
+    var redhunterdecoy;
+    
+    var locations = {};
+    locations["redthiefloc"] = redthiefloc;
+    locations["redhunterloc"] = redhunterloc;
+    locations["init"] = "redtrue"; 
+    socket.emit('finishedInit', locations, playerNickname);
 }
 
+socket.on('waitFinishInit', function() {
+    console.log("waiting for other player to finish....."); 
+});
+
+socket.on('redPlayerInitLoad', function(locations) {
+    console.log(locations);
+    console.log("loading red players moves");
+    
+    redthief.updateLocation(locations['redthiefloc']);
+    redHunter.updateLocation(locations['redhunterloc']);
+    
+    grid[locations['redthiefloc']].hasPlayer = true;
+    grid[locations['redthiefloc']].playerType = "Thief";
+    grid[locations['redthiefloc']].playerTeam = "Red";
+    
+    grid[locations['redhunterloc']].hasPlayer = true;
+    grid[locations['redhunterloc']].playerType = "Hunter";
+    grid[locations['redhunterloc']].playerTeam = "Red";
+    
+    document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
+    document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
+});
+
+socket.on('bluePlayerInitLoad', function(locations) {
+    console.log(locations);
+    console.log("loading blue players moves...");
+    bluethief.updateLocation(locations['bluethiefloc']);
+    blueHunter.updateLocation(locations['bluehunterloc']);
+    
+    grid[locations['bluethiefloc']].hasPlayer = true;
+    grid[locations['bluethiefloc']].playerType = "Thief";
+    grid[locations['bluethiefloc']].playerTeam = "Blue";
+    
+    grid[locations['bluehunterloc']].hasPlayer = true;
+    grid[locations['bluehunterloc']].playerType = "Hunter";
+    grid[locations['bluehunterloc']].playerTeam = "Blue";
+    
+    document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
+    document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
+});
 
 var initGame = function() {
     console.log("starting game...");
@@ -1040,6 +1103,18 @@ var movementLogic = function() {
             grid[this.id].playerType = "Thief";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
             grid[currentSelectedTile].hasPlayer = false;
+            
+            if(grid[currentSelectedTile].playerTeam == "Red"){
+                redthief.updateLocation(this.id); 
+                console.log(redthief.location);
+            }
+            
+            if(grid[currentSelectedTile].playerTeam == "Blue"){
+                bluethief.updateLocation(this.id); 
+                console.log(bluethief.location);
+            }
+
+            
             thiefDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedT");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -1055,8 +1130,20 @@ var movementLogic = function() {
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Hunter";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+
             grid[currentSelectedTile].hasPlayer = false;
+            
+            if(grid[currentSelectedTile].playerTeam == "Red"){
+                redHunter.updateLocation(this.id); 
+                console.log(redHunter.location);
+            }
+            
+            if(grid[currentSelectedTile].playerTeam == "Blue"){
+                blueHunter.updateLocation(this.id); 
+                console.log(blueHunter.location);
+            }
             hunterDeselect(currentSelectedTile);
+    
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
             document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
