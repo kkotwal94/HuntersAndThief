@@ -49,6 +49,10 @@ td.hasBlueThief{
 	background-repeat: no-repeat;
 	background-position: center;
 }
+#toolbox {margin-bottom:1%; visibility:hidden; }
+#parent {
+}
+
 
 
 /*tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
@@ -68,7 +72,7 @@ td.hasBlueThief{
 	text-align: center;
 	margin: 0 auto;
 	width: 60%;
-	margin-top: 3%;
+	margin-top: 2%;
 
 }
 

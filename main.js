@@ -25,6 +25,9 @@ var currentSelectedTile = null;
 var currentValidMoveLocations = [];
 var currentNumOfValid = 0;
 
+var isTrapPlaced = false;
+var lastTrap = null;
+
 
 var LobbyRoom = [];
 var LobbyRoomSize = 2;
@@ -739,6 +742,49 @@ var thiefDeselect = function(clickedTile){
             }
 }
 
+var allowDrop = function(ev) {
+    ev.preventDefault();
+}
+
+var drag = function(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+var drop = function(ev) {
+    ev.preventDefault();
+    if(isTrapPlaced == true){
+        grid[lastTrap].trap = false;
+        console.log(grid[lastTrap].trap);
+        grid[ev.target.id].trap = true;
+        lastTrap = ev.target.id;
+        data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    
+    }
+    else
+    lastTrap = ev.target.id;
+    console.log(grid[lastTrap].trap);
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    grid[ev.target.id].trap = true;
+    isTrapPlaced = true;
+    
+}
+
+var disableHunterToolbox = function(){
+            document.getElementById("gameContent").setAttribute("ondrop", "null"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").setAttribute("ondrop", "null"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").style.visibility = "hidden";
+}
+var enableHunterToolbox = function(){
+            document.getElementById("gameContent").setAttribute("ondrop", "drop(event)"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
+            document.getElementById("toolbox").setAttribute("ondrop", "drop(event)"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
+            document.getElementById("toolbox").style.visibility = "visible";
+}
 
 var movementLogic = function() {
     if(grid[this.id].hasPlayer == true){
@@ -747,6 +793,7 @@ var movementLogic = function() {
             hunterInitialSelect(this.id);
             currentSelectedTile = this.id;
             isSelected = true;
+            enableHunterToolbox();
         }
         else if (isSelected == false && grid[this.id].playerType == "Thief"){ //nothing is selected and you click a thief
             this.classList.toggle("selectedT");
@@ -761,6 +808,7 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
+            disableHunterToolbox();
         }
         else if(isSelected == true && this.classList.contains("selectedT")){ //thief is selected, click again to disable
             this.classList.toggle("selectedT");
@@ -770,7 +818,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Thief"){
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Thief"){ //thief making kill
             thiefDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedT");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -787,7 +835,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false; 
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Hunter"){
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Hunter"){ //hunter making kill
             hunterDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -803,11 +851,12 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false; 
+            disableHunterToolbox();
         }
            
         }
-    if(grid[this.id].hasPlayer == false){
-        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){
+    if(grid[this.id].hasPlayer == false){ //making moves
+        if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){ //thief making valid move
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Thief";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
@@ -823,7 +872,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
             }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Hunter"){
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Hunter"){ //hunter making valid move
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Hunter";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
@@ -838,6 +887,7 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
+            disableHunterToolbox();
         }   
         } 
 };
