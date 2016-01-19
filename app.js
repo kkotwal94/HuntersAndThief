@@ -116,6 +116,7 @@ socket.on('initGame', function(player1, player2) {
     blueplayer[player1] = {name: player1, hasWon: false, hasLost: false, isTurn: false, initStage: true, locations: null};
     redplayer[player2] = {name: player2, hasWon: false, hasLost: false, isTurn: false, initStage: true, locations: null};
    
+    
    io.sockets.connected[p1].emit('blueplayerinit', blueplayer[player1]); 
    io.sockets.connected[p2].emit('redplayerinit', redplayer[player2]);
     
@@ -124,13 +125,16 @@ socket.on('initGame', function(player1, player2) {
 socket.on('finishedInit', function(locations, playerName) {
     if(locations['init'] == "redtrue")  {
         redinit = true;
+        locations['name'] = playerName;
         redplayer[playerName].locations = locations;
         io.sockets.connected[clients[playerName].id].emit('waitFinishInit');
     }  
     
     if(locations['init'] == "bluetrue") {
         blueinit = true;
+        locations['name'] = playerName;
         blueplayer[playerName].locations = locations;
+        blueplayer[playerName].name = playerName;
         io.sockets.connected[clients[playerName].id].emit('waitFinishInit');
         
     }
@@ -142,8 +146,11 @@ socket.on('finishedInit', function(locations, playerName) {
         var blueId = clients[blueplayerName].id;
         var redId = clients[redplayerName].id;
         
-        io.sockets.connected[blueId].emit('redPlayerInitLoad', redloc);
-        io.sockets.connected[redId].emit('bluePlayerInitLoad', blueloc);
+        io.sockets.emit('redPlayerInitLoad', redloc);
+        io.sockets.emit('bluePlayerInitLoad', blueloc);
+        
+        //io.sockets.connected[blueId].emit('redPlayerInitLoad', redloc);
+        //io.sockets.connected[redId].emit('bluePlayerInitLoad', blueloc);
         
         redinit = false;
         blueinit = false;

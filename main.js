@@ -703,10 +703,12 @@ socket.on('redPlayerInitLoad', function(locations) {
     grid[locations['redhunterloc']].hasPlayer = true;
     grid[locations['redhunterloc']].playerType = "Hunter";
     grid[locations['redhunterloc']].playerTeam = "Red";
-    
-    document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
-    document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
-});
+    if(playerNickname != locations['name']) {
+        document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
+        document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
+    }
+        
+    });
 
 socket.on('bluePlayerInitLoad', function(locations) {
     console.log(locations);
@@ -721,10 +723,12 @@ socket.on('bluePlayerInitLoad', function(locations) {
     grid[locations['bluehunterloc']].hasPlayer = true;
     grid[locations['bluehunterloc']].playerType = "Hunter";
     grid[locations['bluehunterloc']].playerTeam = "Blue";
-    
-    document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
-    document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
-});
+    if(playerNickname != locations['name']) {    
+        document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
+        document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
+    }
+        
+    });
 
 var initGame = function() {
     console.log("starting game...");
@@ -765,7 +769,7 @@ var initGame = function() {
 
 createGrid();
 
-
+/*
 grid["(5,5)"].hasPlayer = true;
 grid["(5,5)"].playerType = "Hunter";
 grid["(5,5)"].playerTeam = "Blue";
@@ -791,7 +795,7 @@ document.getElementById("(4,4)").classList.toggle("hasRedHunter");
 document.getElementById("(5,4)").classList.toggle("hasRedThief");
 document.getElementById("(6,4)").classList.toggle("hasRedUnderling");
 document.getElementById("(6,5)").classList.toggle("hasBlueUnderling");
-
+*/
 
 var underlingInitialSelect = function(clickedTile) {
      var fish = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
