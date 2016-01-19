@@ -1541,31 +1541,37 @@ var placeUnitsInGrid = function(ev) {
     if(data == "redunderling1" || "redunderling2" || "redunderling3" || "redunderling4" || "redunderling5" || "redunderling6" || "redunderling7" || "redunderling8" || "redunderling9" || "redunderling10"){
     grid[ev.target.id].playerType = "Underling";     
     grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(ev.target.id).classList.toggle("hasRedUnderling");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if(data == "blueunderling1" || "blueunderling2" || "blueunderling3" || "blueunderling4" || "blueunderling5" || "blueunderling6" || "blueunderling7" || "blueunderling8" || "blueunderling9" || "blueunderling10"){
     grid[ev.target.id].playerType = "Underling";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(ev.target.id).classList.toggle("hasBlueUnderling");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if(data == "redhunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(ev.target.id).classList.toggle("hasRedHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if (data == "redthief1"){
     grid[ev.target.id].playerType = "Thief";     
     grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(ev.target.id).classList.toggle("hasRedThief");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if(data == "bluehunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(ev.target.id).classList.toggle("hasBlueHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if(data == "bluethief1"){
     grid[ev.target.id].playerType = "Thief";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(ev.target.id).classList.toggle("hasBlueThief");
     document.getElementById(data).setAttribute("draggable", "false");
     }
     else if(data == "redgold"){
