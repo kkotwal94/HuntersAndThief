@@ -702,7 +702,6 @@ var initGame = function() {
 
 createGrid();
 
-<<<<<<< HEAD
 grid["(5,5)"].hasPlayer = true;
 grid["(5,5)"].playerType = "Hunter";
 grid["(5,5)"].playerTeam = "Blue";
@@ -776,12 +775,6 @@ var underlingDeselect = function(clickedTile) {
     }        
      
 }
-=======
-
-
-
-
->>>>>>> 4c785e89c36ae0ec7b1f59c4a0ef73580050047f
 var hunterInitialSelect = function(clickedTile) {
     var cat = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
             if(cat){
