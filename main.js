@@ -369,15 +369,15 @@ var ready = function(name) {
     var player2 = document.getElementById("player2");
     var readyButton = document.getElementById("readyButton");
     var form = document.getElementById("nickname");
-   
-   // console.log("player1: " + player1.innerHTML);
-    //console.log("player2: " + player2.innerHTML);
-   // console.log("playerNickName: " + playerNickname);
-   // console.log("player1: " + player1.innerHTML);
-    //console.log("player2: " + player2.innerHTML);
-    //console.log(playerNickname == player1.innerHTML);
-    //console.log(playerNickname === player2.innerHTML);
-   
+   /*
+    console.log("player1: " + player1.innerHTML);
+    console.log("player2: " + player2.innerHTML);
+   console.log("playerNickName: " + playerNickname);
+   console.log("player1: " + player1.innerHTML);
+    console.log("player2: " + player2.innerHTML);
+    console.log(playerNickname == player1.innerHTML);
+    console.log(playerNickname === player2.innerHTML);
+   */
     if(player1 != null){
         //console.log("hitplayer1");
         var p1 = player1.innerHTML.split(" ")[0];
@@ -702,6 +702,7 @@ var initGame = function() {
 
 createGrid();
 
+
 grid["(5,5)"].hasPlayer = true;
 grid["(5,5)"].playerType = "Hunter";
 grid["(5,5)"].playerTeam = "Blue";
@@ -774,7 +775,8 @@ var underlingDeselect = function(clickedTile) {
     fish.classList.toggle("validU");
     }        
      
-}
+     }
+
 var hunterInitialSelect = function(clickedTile) {
     var cat = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
             if(cat){
@@ -990,50 +992,6 @@ var thiefDeselect = function(clickedTile){
             }
 }
 
-var allowDrop = function(ev) {
-    ev.preventDefault();
-}
-
-var drag = function(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-}
-
-var drop = function(ev) {
-    ev.preventDefault();
-    if(isTrapPlaced == true){
-        grid[lastTrap].trap = false;
-        console.log(grid[lastTrap].trap);
-        grid[ev.target.id].trap = true;
-        lastTrap = ev.target.id;
-        data = ev.dataTransfer.getData("text");
-        ev.target.appendChild(document.getElementById(data));
-    
-    }
-    else
-    lastTrap = ev.target.id;
-    console.log(grid[lastTrap].trap);
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-    grid[ev.target.id].trap = true;
-    isTrapPlaced = true;
-    
-}
-
-var disableHunterToolbox = function(){
-            document.getElementById("gameContent").setAttribute("ondrop", "null"); 
-            document.getElementById("gameContent").setAttribute("ondragover", "null"); 
-            document.getElementById("toolbox").setAttribute("ondrop", "null"); 
-            document.getElementById("toolbox").setAttribute("ondragover", "null"); 
-            document.getElementById("toolbox").style.visibility = "hidden";
-}
-var enableHunterToolbox = function(){
-            document.getElementById("gameContent").setAttribute("ondrop", "drop(event)"); 
-            document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
-            document.getElementById("toolbox").setAttribute("ondrop", "drop(event)"); 
-            document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
-            document.getElementById("toolbox").style.visibility = "visible";
-}
-
 var movementLogic = function() {
     if(grid[this.id].hasPlayer == true){
         if(isSelected == false && grid[this.id].playerType == "Hunter"){ //nothing is selected and you click a hunter
@@ -1055,7 +1013,7 @@ var movementLogic = function() {
             currentSelectedTile = this.id;
             isSelected = true;
         }
-        else if(isSelected == true && this.classList.contains("selectedH")){ //hunter is selected, click again to disable
+        else if(isSelected == true && this.classList.contains("selectedH") && isTrapPlaced != true){ //hunter is selected, click again to disable
             this.classList.toggle("selectedH");
             hunterDeselect(this.id);
             currentValidMoveLocations = [];
@@ -1186,6 +1144,59 @@ var movementLogic = function() {
         }   
         } 
 };
+
+var allowDrop = function(ev) {
+    ev.preventDefault();
+}
+
+var drag = function(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+var placeInGrid = function(ev) {
+    ev.preventDefault();
+    if(isTrapPlaced == true){
+        grid[lastTrap].trap = false;
+        grid[ev.target.id].trap = true;
+        lastTrap = ev.target.id;
+        data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+        isTrapPlaced = false;
+    }
+    else
+    lastTrap = ev.target.id;
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    grid[ev.target.id].trap = true;
+    isTrapPlaced = true;
+    console.log(grid[ev.target.id].trap);
+    
+}
+var placeInToolbox = function(ev) {
+    ev.preventDefault();
+    grid[lastTrap].trap = false;
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    isTrapPlaced=false;
+    console.log(grid[lastTrap].trap);
+    lastTrap = null;
+    
+}
+
+var disableHunterToolbox = function(){
+            document.getElementById("gameContent").setAttribute("ondrop", "null"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").setAttribute("ondrop", "null"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").style.visibility = "hidden";
+}
+var enableHunterToolbox = function(){
+            document.getElementById("gameContent").setAttribute("ondrop", "placeInGrid(event)"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
+            document.getElementById("toolbox").setAttribute("ondrop", "placeInToolbox(event)"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
+            document.getElementById("toolbox").style.visibility = "visible";
+}
 
 var cellClickListeners = function() {
      for(var i =0; i< size; i++) {
