@@ -21,6 +21,10 @@ var readyStatus = {};
 var clients = {};
 var blueplayer = {};
 var redplayer = {};
+var blueplayerName;
+var redplayerName;
+var redinit = false;
+var blueinit = false;
 //routing to our index.html
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -106,14 +110,47 @@ socket.on('unready', function(name) {
 socket.on('initGame', function(player1, player2) {
     var p1 = clients[player1].id;
     var p2 = clients[player2].id;
+    blueplayerName = player1;
+    redplayerName = player2;
     
-    blueplayer[player1] = {name: player1, hasWon: false, hasLost: false, isTurn: false, initStage: true};
-    redplayer[player2] = {name: player2, hasWon: false, hasLost: false, isTurn: false, initStage: true};
+    blueplayer[player1] = {name: player1, hasWon: false, hasLost: false, isTurn: false, initStage: true, locations: null};
+    redplayer[player2] = {name: player2, hasWon: false, hasLost: false, isTurn: false, initStage: true, locations: null};
    
    io.sockets.connected[p1].emit('blueplayerinit', blueplayer[player1]); 
    io.sockets.connected[p2].emit('redplayerinit', redplayer[player2]);
     
 });
+
+socket.on('finishedInit', function(locations, playerName) {
+    if(locations['init'] == "redtrue")  {
+        redinit = true;
+        redplayer[playerName].locations = locations;
+        io.sockets.connected[clients[playerName].id].emit('waitFinishInit');
+    }  
+    
+    if(locations['init'] == "bluetrue") {
+        blueinit = true;
+        blueplayer[playerName].locations = locations;
+        io.sockets.connected[clients[playerName].id].emit('waitFinishInit');
+        
+    }
+    
+    if((redinit == true) && (blueinit == true)) {
+        var blueloc = blueplayer[blueplayerName].locations;
+        var redloc = redplayer[redplayerName].locations;
+        
+        var blueId = clients[blueplayerName].id;
+        var redId = clients[redplayerName].id;
+        
+        io.sockets.connected[blueId].emit('redPlayerInitLoad', redloc);
+        io.sockets.connected[redId].emit('bluePlayerInitLoad', blueloc);
+        
+        redinit = false;
+        blueinit = false;
+        
+    }
+});
+
 
   socket.on('disconnect', function() {
     //removes the username from global array of username
