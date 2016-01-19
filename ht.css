@@ -19,10 +19,16 @@ td.selectedH{
 td.selectedT{
 	 border: 2px solid lime; 
 }
+td.selectedU{
+	 border: 2px solid purple; 
+}
 td.validH{
 	 background-color: white; 
 }
 td.validT{
+	 background-color: white;
+}
+td.validU{
 	 background-color: white;
 }
 td.hasRedHunter{
@@ -37,6 +43,12 @@ td.hasRedThief{
 	background-repeat: no-repeat;
 	background-position: center;
 }
+td.hasRedUnderling{
+	background-image: url("http://www.nicenicejpg.com/40/40");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
 td.hasBlueHunter{
 	background-image: url("https://www.placecage.com/40/40");
 	text-align: center;
@@ -45,6 +57,12 @@ td.hasBlueHunter{
 }
 td.hasBlueThief{
 	background-image: url("https://www.placecage.com/g/40/40");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+td.hasBlueUnderling{
+	background-image: url("https://placekitten.com/g/40/40");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;

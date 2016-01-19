@@ -521,12 +521,67 @@ grid["(4,4)"].playerTeam = "Red";
 grid["(5,4)"].hasPlayer = true;
 grid["(5,4)"].playerType = "Thief";
 grid["(5,4)"].playerTeam = "Red";
+grid["(6,5)"].hasPlayer = true;
+grid["(6,5)"].playerType = "Underling";
+grid["(6,5)"].playerTeam = "Blue";
+grid["(6,4)"].hasPlayer = true;
+grid["(6,4)"].playerType = "Underling";
+grid["(6,4)"].playerTeam = "Red";
 
 document.getElementById("(5,5)").classList.toggle("hasBlueHunter");
 document.getElementById("(4,5)").classList.toggle("hasBlueThief");
 document.getElementById("(4,4)").classList.toggle("hasRedHunter");
 document.getElementById("(5,4)").classList.toggle("hasRedThief");
+document.getElementById("(6,4)").classList.toggle("hasRedUnderling");
+document.getElementById("(6,5)").classList.toggle("hasBlueUnderling");
 
+
+var underlingInitialSelect = function(clickedTile) {
+     var fish = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
+     if(fish){
+     fish.classList.toggle("validU");
+     currentValidMoveLocations[currentNumOfValid] = fish.id;
+     currentNumOfValid++;
+     }
+     fish = document.getElementById("("+(grid[clickedTile].locationX - 1)+","+grid[clickedTile].locationY+")");
+     if(fish){
+     fish.classList.toggle("validU");
+     currentValidMoveLocations[currentNumOfValid] = fish.id;
+     currentNumOfValid++;
+     }
+    fish = document.getElementById("("+grid[clickedTile].locationX+","+(grid[clickedTile].locationY+1)+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    currentValidMoveLocations[currentNumOfValid] = fish.id;
+    currentNumOfValid++;
+    }  
+    fish = document.getElementById("("+grid[clickedTile].locationX+","+(grid[clickedTile].locationY-1)+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    currentValidMoveLocations[currentNumOfValid] = fish.id;
+    currentNumOfValid++;
+    }        
+     
+}
+var underlingDeselect = function(clickedTile) {
+    var fish = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    }
+    fish = document.getElementById("("+(grid[clickedTile].locationX - 1)+","+grid[clickedTile].locationY+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    }
+    fish = document.getElementById("("+grid[clickedTile].locationX+","+(grid[clickedTile].locationY+1)+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    }  
+    fish = document.getElementById("("+grid[clickedTile].locationX+","+(grid[clickedTile].locationY-1)+")");
+    if(fish){
+    fish.classList.toggle("validU");
+    }        
+     
+}
 var hunterInitialSelect = function(clickedTile) {
     var cat = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
             if(cat){
@@ -801,6 +856,12 @@ var movementLogic = function() {
             currentSelectedTile = this.id;
             isSelected = true;
         }
+        else if (isSelected == false && grid[this.id].playerType == "Underling"){ //nothing is selected and you click a underling
+            this.classList.toggle("selectedU");
+            underlingInitialSelect(this.id);
+            currentSelectedTile = this.id;
+            isSelected = true;
+        }
         else if(isSelected == true && this.classList.contains("selectedH")){ //hunter is selected, click again to disable
             this.classList.toggle("selectedH");
             hunterDeselect(this.id);
@@ -813,6 +874,14 @@ var movementLogic = function() {
         else if(isSelected == true && this.classList.contains("selectedT")){ //thief is selected, click again to disable
             this.classList.toggle("selectedT");
             thiefDeselect(this.id);
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
+        }   
+        else if(isSelected == true && this.classList.contains("selectedU")){ //underling is selected, click again to disable
+            this.classList.toggle("selectedU");
+            underlingDeselect(this.id);
             currentValidMoveLocations = [];
             currentNumOfValid = 0;
             currentSelectedTile = null;
@@ -835,7 +904,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false; 
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Hunter"){ //hunter making kill
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Hunter" && isTrapPlaced != true){ //hunter making kill
             hunterDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -852,6 +921,23 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false; 
             disableHunterToolbox();
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Underling"){ //underling making kill
+            underlingDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[this.id].playerTeam+grid[this.id].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = "Underling";
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
         }
            
         }
@@ -872,7 +958,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
             }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Hunter"){ //hunter making valid move
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Hunter" && isTrapPlaced != true){ //hunter making valid move
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Hunter";
             grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
@@ -888,6 +974,22 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
             disableHunterToolbox();
+        }  
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Underling"){ //underling making valid move
+            grid[this.id].hasPlayer = true;
+            grid[this.id].playerType = "Underling";
+            grid[this.id].playerTeam = grid[currentSelectedTile].playerTeam;
+            grid[currentSelectedTile].hasPlayer = false;
+            underlingDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            document.getElementById(this.id).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false;
         }   
         } 
 };
