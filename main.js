@@ -768,32 +768,6 @@ var initGame = function() {
 createGrid();
 
 
-grid["(5,5)"].hasPlayer = true;
-grid["(5,5)"].playerType = "Hunter";
-grid["(5,5)"].playerTeam = "Blue";
-grid["(4,5)"].hasPlayer = true;
-grid["(4,5)"].playerType = "Thief";
-grid["(4,5)"].playerTeam = "Blue";
-grid["(4,4)"].hasPlayer = true;
-grid["(4,4)"].playerType = "Hunter";
-grid["(4,4)"].playerTeam = "Red";
-grid["(5,4)"].hasPlayer = true;
-grid["(5,4)"].playerType = "Thief";
-grid["(5,4)"].playerTeam = "Red";
-grid["(6,5)"].hasPlayer = true;
-grid["(6,5)"].playerType = "Underling";
-grid["(6,5)"].playerTeam = "Blue";
-grid["(6,4)"].hasPlayer = true;
-grid["(6,4)"].playerType = "Underling";
-grid["(6,4)"].playerTeam = "Red";
-
-document.getElementById("(5,5)").classList.toggle("hasBlueHunter");
-document.getElementById("(4,5)").classList.toggle("hasBlueThief");
-document.getElementById("(4,4)").classList.toggle("hasRedHunter");
-document.getElementById("(5,4)").classList.toggle("hasRedThief");
-document.getElementById("(6,4)").classList.toggle("hasRedUnderling");
-document.getElementById("(6,5)").classList.toggle("hasBlueUnderling");
-
 
 var underlingInitialSelect = function(clickedTile) {
      var fish = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
