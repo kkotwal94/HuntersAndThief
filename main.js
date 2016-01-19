@@ -105,9 +105,37 @@ var Hero = function(type, nickname, location) {
 
 var redthief = new Hero("RedThief", playerNickname+" redThief", '(1,2)');
 var redHunter = new Hero("RedHunter", playerNickname +"redHunter", '(1,1)');
+var redthiefdecoy = new Hero("RedThiefDecoy", playerNickname +"redThiefDecoy", '(1,3)');
+var redHunterdecoy = new Hero("RedHunterDecoy", playerNickname+ "redHunterDecoy", '(1,4)');
 
-var bluethief = new Hero("BlueThief", playerNickname + "blueThief", '(9,8)');
+var bluethief = new Hero("BlueThief", playerNickname + "blueThief", '(8,9)');
 var blueHunter = new Hero("BlueHunter", playerNickname + "blueHunter", '(9,9)');
+
+var bluethiefdecoy = new Hero("BlueThiefDecoy", playerNickname +"blueThiefDecoy", '(7,9)');
+var blueHunterdecoy = new Hero("BlueHunterDecoy", playerNickname+ "blueHunterDecoy", '(6,9)');
+
+var redpawn1 = new Hero("RedPawn1", playerNickname + "redPawn1", '(0,8)');
+var redpawn2 = new Hero("RedPawn2", playerNickname + "redPawn2", '(1,8)');
+var redpawn3 = new Hero("RedPawn3", playerNickname + "redPawn3", '(2,8)');
+var redpawn4 = new Hero("RedPawn4", playerNickname + "redPawn4", '(3,8)');
+var redpawn5 = new Hero("RedPawn5", playerNickname + "redPawn5", '(4,8)');
+var redpawn6 = new Hero("RedPawn6", playerNickname + "redPawn6", '(5,8)');
+var redpawn7 = new Hero("RedPawn7", playerNickname + "redPawn7", '(6,8)');
+var redpawn8 = new Hero("RedPawn8", playerNickname + "redPawn8", '(7,8)');
+var redpawn9 = new Hero("RedPawn9", playerNickname + "redPawn9", '(8,8)');
+var redpawn10 = new Hero("RedPawn10", playerNickname + "redPawn10", '(9,8)');
+
+var bluepawn1 = new Hero("BluePawn1", playerNickname + "bluePawn1", '(0,0)');
+var bluepawn2 = new Hero("BluePawn2", playerNickname + "bluePawn2", '(1,0)');
+var bluepawn3 = new Hero("BluePawn3", playerNickname + "bluePawn3", '(2,0)');
+var bluepawn4 = new Hero("BluePawn4", playerNickname + "bluePawn4", '(3,0)');
+var bluepawn5 = new Hero("BluePawn5", playerNickname + "bluePawn5", '(4,0)');
+var bluepawn6 = new Hero("BluePawn6", playerNickname + "bluePawn6", '(5,0)');
+var bluepawn7 = new Hero("BluePawn7", playerNickname + "bluePawn7", '(6,0)');
+var bluepawn8 = new Hero("BluePawn8", playerNickname + "bluePawn8", '(7,0)');
+var bluepawn9 = new Hero("BluePawn9", playerNickname + "bluePawn9", '(8,0)');
+var bluepawn10 = new Hero("BluePawn10", playerNickname + "bluePawn10", '(9,0)');
+
 
 var redgold = new gold("RedGold", "(0,0)");
 var bluegold = new gold("BlueGold", "(9,9)");
@@ -654,6 +682,7 @@ var endblueturninit = function() {
     var locations = {};
     locations["bluethiefloc"] = bluethiefloc;
     locations["bluehunterloc"] = bluehunterloc;
+    locations["bluegoldloc"] = bluegold.location;
     locations["init"] = "bluetrue"; 
     socket.emit('finishedInit', locations, playerNickname);
 };
@@ -690,10 +719,12 @@ var endredturninit = function() {
     var mine1, mine2, mine3, mine4, mine5;
     var redthiefdecoy;
     var redhunterdecoy;
+    var redgoldloc = redgold.location;
     
     var locations = {};
     locations["redthiefloc"] = redthiefloc;
     locations["redhunterloc"] = redhunterloc;
+    locations["redgoldloc"] = redgoldloc;
     locations["init"] = "redtrue"; 
     socket.emit('finishedInit', locations, playerNickname);
 }
@@ -716,10 +747,22 @@ socket.on('redPlayerInitLoad', function(locations) {
     grid[locations['redhunterloc']].hasPlayer = true;
     grid[locations['redhunterloc']].playerType = "Hunter";
     grid[locations['redhunterloc']].playerTeam = "Red";
+    
+    grid[locations['redgoldloc']].hasPlayer = false;
+    grid[locations['redgoldloc']].gold = true; 
+    grid[locations['redgoldloc']].trap = false;
+    console.log("RedGold: " + locations['redgoldloc']);
     if(playerNickname != locations['name']) {
         document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
         document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
-    }
+         if(playerNickname == locations['enemy']) {
+        document.getElementById(locations['redgoldloc']).classList.toggle("hasGoldInvis");
+        } else {
+            document.getElementById(locations['redgoldloc']).classList.toggle("hasGold");
+        }
+            
+        }
+    
         
     });
 
@@ -729,6 +772,7 @@ socket.on('bluePlayerInitLoad', function(locations) {
     bluethief.updateLocation(locations['bluethiefloc']);
     blueHunter.updateLocation(locations['bluehunterloc']);
     
+    
     grid[locations['bluethiefloc']].hasPlayer = true;
     grid[locations['bluethiefloc']].playerType = "Thief";
     grid[locations['bluethiefloc']].playerTeam = "Blue";
@@ -736,10 +780,21 @@ socket.on('bluePlayerInitLoad', function(locations) {
     grid[locations['bluehunterloc']].hasPlayer = true;
     grid[locations['bluehunterloc']].playerType = "Hunter";
     grid[locations['bluehunterloc']].playerTeam = "Blue";
+    
+    grid[locations['bluegoldloc']].hasPlayer = false;
+    grid[locations['bluegoldloc']].gold = true; 
+    grid[locations['bluegoldloc']].trap = false;
+    console.log("BlueGold: " + locations['bluegoldloc']);
     if(playerNickname != locations['name']) {    
         document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
         document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
-    }
+        if(playerNickname == locations['enemy']) {
+        document.getElementById(locations['bluegoldloc']).classList.toggle("hasGoldInvis");
+        } else {
+            document.getElementById(locations['bluegoldloc']).classList.toggle("hasGold");
+        }
+            
+        }
         
     });
 
@@ -1439,6 +1494,8 @@ var placeMineInGrid = function(ev) {
         console.log(ev.target.id);
         lastTrap = ev.target.id;
         console.log(lastTrap);
+        redgold.location = lastTrap;
+        bluegold.location = lastTrap;
         data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
         isTrapPlaced = false;
@@ -1446,6 +1503,8 @@ var placeMineInGrid = function(ev) {
     else
     lastTrap = ev.target.id;
     console.log(lastTrap);
+    redgold.location = lastTrap;
+    bluegold.location = lastTrap;
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
