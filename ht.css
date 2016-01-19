@@ -32,37 +32,37 @@ td.validU{
 	 background-color: white;
 }
 td.hasRedHunter{
-	background-image: url("https://www.fillmurray.com/40/40");
+	background-image: url("http://i.imgur.com/rmRCFeJ.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 td.hasRedThief{
-	background-image: url("https://www.fillmurray.com/g/40/40");
+	background-image: url("http://i.imgur.com/ldXuWru.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 td.hasRedUnderling{
-	background-image: url("http://www.nicenicejpg.com/40/40");
+	background-image: url("http://i.imgur.com/6YRQKbO.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 td.hasBlueHunter{
-	background-image: url("https://www.placecage.com/40/40");
+	background-image: url("http://i.imgur.com/2VmSFfI.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 td.hasBlueThief{
-	background-image: url("https://www.placecage.com/g/40/40");
+	background-image: url("http://i.imgur.com/RCLPB6s.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 td.hasBlueUnderling{
-	background-image: url("https://placekitten.com/g/40/40");
+	background-image: url("http://i.imgur.com/MGiZ46C.png");
 	text-align: center;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -89,7 +89,7 @@ td.hasBlueUnderling{
 #gameContent {
 	text-align: center;
 	margin: 0 auto;
-	width: 60%;
+	width: 30%;
 	margin-top: 2%;
 
 }

@@ -25,6 +25,8 @@ var currentSelectedTile = null;
 var currentValidMoveLocations = [];
 var currentNumOfValid = 0;
 
+var whoseTurn = "Blue";
+
 var isTrapPlaced = false;
 var lastTrap = null;
 
@@ -1092,7 +1094,7 @@ var movementLogic = function() {
         }
            
         }
-    if(grid[this.id].hasPlayer == false){ //making moves
+    if(grid[this.id].hasPlayer == false){ //making moves and mine interaction
         if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Thief"){ //thief making valid move
             grid[this.id].hasPlayer = true;
             grid[this.id].playerType = "Thief";
@@ -1141,6 +1143,55 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //thief hitting enemy mine
+            thiefDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedT");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //hunter hitting enemy mine
+            hunterDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedH");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
+            disableHunterToolbox();
+        }
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //underling hitting enemy mine
+            underlingDeselect(currentSelectedTile);
+            document.getElementById(currentSelectedTile).classList.toggle("selectedU");
+            document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
+            grid[this.id].trap = false;
+            grid[this.id].hasPlayer = false;
+            grid[this.id].playerType = "null";
+            grid[this.id].playerTeam = "null";
+            grid[currentSelectedTile].playerTeam = null;
+            grid[currentSelectedTile].playerType = null;
+            grid[currentSelectedTile].hasPlayer = false;
+            currentValidMoveLocations = [];
+            currentNumOfValid = 0;
+            currentSelectedTile = null;
+            isSelected = false; 
         }   
         } 
 };
@@ -1157,7 +1208,9 @@ var placeMineInGrid = function(ev) {
     ev.preventDefault();
     if(isTrapPlaced == true){
         grid[lastTrap].trap = false;
+        grid[lastTrap].playerTeam = "null";
         grid[ev.target.id].trap = true;
+        grid[ev.target.id].playerTeam = whoseTurn;
         lastTrap = ev.target.id;
         data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
@@ -1168,6 +1221,7 @@ var placeMineInGrid = function(ev) {
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
+    grid[ev.target.id].playerTeam = whoseTurn;
     isTrapPlaced = true;
     document.getElementById("drag1").setAttribute("draggable", "false");
     document.getElementById("drag2").setAttribute("draggable", "false");
@@ -1178,10 +1232,10 @@ var placeMineInGrid = function(ev) {
 var placeMineInToolbox = function(ev) {
     ev.preventDefault();
     grid[lastTrap].trap = false;
+    grid[lastTrap].playerTeam = "null";
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     isTrapPlaced=false;
-    console.log(grid[lastTrap].trap);
     lastTrap = null;
     document.getElementById("drag1").setAttribute("draggable", "true");
     document.getElementById("drag2").setAttribute("draggable", "true");
