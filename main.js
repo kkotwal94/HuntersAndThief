@@ -114,27 +114,27 @@ var blueHunter = new Hero("BlueHunter", playerNickname + "blueHunter", '(9,9)');
 var bluethiefdecoy = new Hero("BlueThiefDecoy", playerNickname +"blueThiefDecoy", '(7,9)');
 var blueHunterdecoy = new Hero("BlueHunterDecoy", playerNickname+ "blueHunterDecoy", '(6,9)');
 
-var redpawn1 = new Hero("RedPawn1", playerNickname + "redPawn1", '(0,8)');
-var redpawn2 = new Hero("RedPawn2", playerNickname + "redPawn2", '(1,8)');
-var redpawn3 = new Hero("RedPawn3", playerNickname + "redPawn3", '(2,8)');
-var redpawn4 = new Hero("RedPawn4", playerNickname + "redPawn4", '(3,8)');
-var redpawn5 = new Hero("RedPawn5", playerNickname + "redPawn5", '(4,8)');
-var redpawn6 = new Hero("RedPawn6", playerNickname + "redPawn6", '(5,8)');
-var redpawn7 = new Hero("RedPawn7", playerNickname + "redPawn7", '(6,8)');
-var redpawn8 = new Hero("RedPawn8", playerNickname + "redPawn8", '(7,8)');
-var redpawn9 = new Hero("RedPawn9", playerNickname + "redPawn9", '(8,8)');
-var redpawn10 = new Hero("RedPawn10", playerNickname + "redPawn10", '(9,8)');
+var redpawn1 = new Hero("RedPawn1", playerNickname + "redPawn1", '(0,0)');
+var redpawn2 = new Hero("RedPawn2", playerNickname + "redPawn2", '(1,0)');
+var redpawn3 = new Hero("RedPawn3", playerNickname + "redPawn3", '(2,0)');
+var redpawn4 = new Hero("RedPawn4", playerNickname + "redPawn4", '(3,0)');
+var redpawn5 = new Hero("RedPawn5", playerNickname + "redPawn5", '(4,0)');
+var redpawn6 = new Hero("RedPawn6", playerNickname + "redPawn6", '(5,0)');
+var redpawn7 = new Hero("RedPawn7", playerNickname + "redPawn7", '(6,0)');
+var redpawn8 = new Hero("RedPawn8", playerNickname + "redPawn8", '(7,0)');
+var redpawn9 = new Hero("RedPawn9", playerNickname + "redPawn9", '(8,0)');
+var redpawn10 = new Hero("RedPawn10", playerNickname + "redPawn10", '(9,0)');
 
-var bluepawn1 = new Hero("BluePawn1", playerNickname + "bluePawn1", '(0,0)');
-var bluepawn2 = new Hero("BluePawn2", playerNickname + "bluePawn2", '(1,0)');
-var bluepawn3 = new Hero("BluePawn3", playerNickname + "bluePawn3", '(2,0)');
-var bluepawn4 = new Hero("BluePawn4", playerNickname + "bluePawn4", '(3,0)');
-var bluepawn5 = new Hero("BluePawn5", playerNickname + "bluePawn5", '(4,0)');
-var bluepawn6 = new Hero("BluePawn6", playerNickname + "bluePawn6", '(5,0)');
-var bluepawn7 = new Hero("BluePawn7", playerNickname + "bluePawn7", '(6,0)');
-var bluepawn8 = new Hero("BluePawn8", playerNickname + "bluePawn8", '(7,0)');
-var bluepawn9 = new Hero("BluePawn9", playerNickname + "bluePawn9", '(8,0)');
-var bluepawn10 = new Hero("BluePawn10", playerNickname + "bluePawn10", '(9,0)');
+var bluepawn1 = new Hero("BluePawn1", playerNickname + "bluePawn1", '(0,8)');
+var bluepawn2 = new Hero("BluePawn2", playerNickname + "bluePawn2", '(1,8)');
+var bluepawn3 = new Hero("BluePawn3", playerNickname + "bluePawn3", '(2,8)');
+var bluepawn4 = new Hero("BluePawn4", playerNickname + "bluePawn4", '(3,8)');
+var bluepawn5 = new Hero("BluePawn5", playerNickname + "bluePawn5", '(4,8)');
+var bluepawn6 = new Hero("BluePawn6", playerNickname + "bluePawn6", '(5,8)');
+var bluepawn7 = new Hero("BluePawn7", playerNickname + "bluePawn7", '(6,8)');
+var bluepawn8 = new Hero("BluePawn8", playerNickname + "bluePawn8", '(7,8)');
+var bluepawn9 = new Hero("BluePawn9", playerNickname + "bluePawn9", '(8,8)');
+var bluepawn10 = new Hero("BluePawn10", playerNickname + "bluePawn10", '(9,8)');
 
 
 var redgold = new gold("RedGold", "(0,0)");
@@ -699,12 +699,13 @@ var endblueturninit = function() {
     locations["bluepawn10"] = bluepawn10.location;
     
     locations["init"] = "bluetrue"; 
-    toolboxWipe();
+    //toolboxWipe();
     socket.emit('finishedInit', locations, playerNickname);
 };
 
 socket.on('redplayerinit', function(player) {
     console.log("I am the red player " + playerNickname);
+    toolboxWipe();
     redplayer = true;
     var finishTurnButton = document.createElement("BUTTON");
     var textNode = document.createTextNode("End Initialization");
@@ -758,7 +759,7 @@ var endredturninit = function() {
     locations["redpawn10"] = redpawn10.location;
     
     locations["init"] = "redtrue"; 
-    toolboxWipe();
+    //toolboxwipe
     socket.emit('finishedInit', locations, playerNickname);
 }
 
@@ -767,6 +768,7 @@ socket.on('waitFinishInit', function() {
 });
 
 socket.on('redPlayerInitLoad', function(locations) {
+    toolboxWipe();
     console.log(locations);
     console.log("loading red players moves");
     
@@ -826,7 +828,7 @@ socket.on('redPlayerInitLoad', function(locations) {
     grid[locations['redpawn10']].gold = false; 
     grid[locations['redpawn10']].trap = false;
     //console.log("RedGold: " + locations['redgoldloc']);
-    if(playerNickname != locations['name']) {
+    
         document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
         document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
         document.getElementById(locations['redpawn1']).classList.toggle("hasRedUnderling");
@@ -845,7 +847,7 @@ socket.on('redPlayerInitLoad', function(locations) {
             document.getElementById(locations['redgoldloc']).classList.toggle("hasGold");
         }
             
-        }
+        
     
         
     });
@@ -909,7 +911,7 @@ socket.on('bluePlayerInitLoad', function(locations) {
     grid[locations['bluepawn10']].hasPlayer =true;
     grid[locations['bluepawn10']].gold =false;
     grid[locations['bluepawn10']].trap =false;
-    if(playerNickname != locations['name']) {    
+    
         document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
         document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
         
@@ -930,7 +932,7 @@ socket.on('bluePlayerInitLoad', function(locations) {
             document.getElementById(locations['bluegoldloc']).classList.toggle("hasGold");
         }
             
-        }
+        
         
     });
 
@@ -1319,7 +1321,8 @@ var toolboxBlueInitPhase = function(){
     document.getElementById('bluethief1').src="http://i.imgur.com/RCLPB6s.png";
 }
 var toolboxWipe = function(){
-    document.getElementById('gold').src="";
+    document.getElementById('redgold').src="";
+    document.getElementById('bluegold').src="";
     document.getElementById('blueunderling1').src="";
     document.getElementById('blueunderling2').src="";
     document.getElementById('blueunderling3').src="";
@@ -1671,6 +1674,7 @@ var placeUnitsInGrid = function(ev) {
    /* if(data == "redunderling1" || "redunderling2" || "redunderling3" || "redunderling4" || "redunderling5" || "redunderling6" || "redunderling7" || "redunderling8" || "redunderling9" || "redunderling10"){
     grid[ev.target.id].playerType = "Underling";     
     grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(ev.target.id).classList.toggle("hasRedUnderling");
     document.getElementById(data).setAttribute("draggable", "false");
     }*/
     
@@ -1681,6 +1685,7 @@ var placeUnitsInGrid = function(ev) {
         redpawn1.updateLocation(ev.target.id);
         
     }
+
     
     if(data == "redunderling2") {
         grid[ev.target.id].playerType = "Underling";
@@ -1820,24 +1825,28 @@ var placeUnitsInGrid = function(ev) {
     else if(data == "redhunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Red"; 
+    //document.getElementById(ev.target.id).classList.toggle("hasRedHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     redHunter.updateLocation(ev.target.id);
     }
     else if (data == "redthief1"){
     grid[ev.target.id].playerType = "Thief";     
     grid[ev.target.id].playerTeam = "Red"; 
+    //document.getElementById(ev.target.id).classList.toggle("hasRedThief");
     document.getElementById(data).setAttribute("draggable", "false");
     redthief.updateLocation(ev.target.id);
     }
     else if(data == "bluehunter1"){
     grid[ev.target.id].playerType = "Hunter";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    //document.getElementById(ev.target.id).classList.toggle("hasBlueHunter");
     document.getElementById(data).setAttribute("draggable", "false");
     blueHunter.updateLocation(ev.target.id);
     }
     else if(data == "bluethief1"){
     grid[ev.target.id].playerType = "Thief";     
     grid[ev.target.id].playerTeam = "Blue"; 
+    //document.getElementById(ev.target.id).classList.toggle("hasBlueThief");
     document.getElementById(data).setAttribute("draggable", "false");
     bluethief.updateLocation(ev.target.id);
     }
