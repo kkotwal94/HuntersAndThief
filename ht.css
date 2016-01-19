@@ -81,6 +81,15 @@ td.hasGold {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+td.hasMineInvis{
+	
+}
+td.hasMine{
+	background-image: url("http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png");
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+}
 
 
 #toolbox {margin-bottom:1%; visibility:hidden; border: 1px solid black;  }

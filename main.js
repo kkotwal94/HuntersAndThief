@@ -1189,7 +1189,8 @@ var toolboxBlueInitPhase = function(){
     document.getElementById('bluethief1').src="http://i.imgur.com/RCLPB6s.png";
 }
 var toolboxWipe = function(){
-    document.getElementById('gold').src="";
+    document.getElementById('redgold').src="";
+    document.getElementById('bluegold').src="";
     document.getElementById('blueunderling1').src="";
     document.getElementById('blueunderling2').src="";
     document.getElementById('blueunderling3').src="";
@@ -1514,13 +1515,9 @@ var placeMineInGrid = function(ev) {
         bluegold.location = lastTrap;
         data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
-        isTrapPlaced = false;
     }
     else
     lastTrap = ev.target.id;
-    console.log(lastTrap);
-    redgold.location = lastTrap;
-    bluegold.location = lastTrap;
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
