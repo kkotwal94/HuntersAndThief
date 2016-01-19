@@ -42,6 +42,12 @@ $table.id = "gameGrid"; //setting table id
 
 //!IMPORTANT => WE SHOULD PROBABLY MAKE A HUNTER AND A THIEF A CLASS, SO WE COULD HAVE MULTIPLE CHARACTERS IF WE WANTED TO FOR SOME REASON, LIKE HUNTER AND THIEF PARTY 5, or have multiple games going on
 
+var gold = function(type, location) {
+    this.type = type;
+    this.location = location;
+    
+};
+
 var Hero = function(type, nickname, location) {
     this.alive = true;
     this.currentTraps = {};
@@ -98,6 +104,9 @@ var redHunter = new Hero("RedHunter", playerNickname +"redHunter", '(1,1)');
 
 var bluethief = new Hero("BlueThief", playerNickname + "blueThief", '(9,8)');
 var blueHunter = new Hero("BlueHunter", playerNickname + "blueHunter", '(9,9)');
+
+var redgold = new gold("RedGold", "(0,0)");
+var bluegold = new gold("BlueGold", "(9,9)");
 
 //===========================================================================
 // Create grid and fill grid{} object with initialized objects for each key
@@ -1250,12 +1259,14 @@ var placeMineInGrid = function(ev) {
         grid[lastTrap].trap = false;
         grid[ev.target.id].trap = true;
         lastTrap = ev.target.id;
+        console.log(lastTrap);
         data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
         isTrapPlaced = false;
     }
     else
     lastTrap = ev.target.id;
+    console.log(lastTrap);
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
