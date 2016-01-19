@@ -1263,6 +1263,7 @@ var placeMineInGrid = function(ev) {
     document.getElementById("drag1").setAttribute("draggable", "false");
     document.getElementById("drag2").setAttribute("draggable", "false");
     document.getElementById("drag3").setAttribute("draggable", "false");
+    document.getElementById("gold").setAttribute("draggable", "false");
     document.getElementById(data).setAttribute("draggable", "true");
     
 }
@@ -1277,6 +1278,7 @@ var placeMineInToolbox = function(ev) {
     document.getElementById("drag1").setAttribute("draggable", "true");
     document.getElementById("drag2").setAttribute("draggable", "true");
     document.getElementById("drag3").setAttribute("draggable", "true");
+    document.getElementById("gold").setAttribute("draggable", "true");
     
 }
 
