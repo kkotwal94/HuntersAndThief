@@ -663,6 +663,8 @@ socket.on('blueplayerinit', function(player) {
         endblueturninit();
     }
     form.appendChild(finishTurnButton);
+    toolboxBlueInitPhase();
+    enableInitToolbox();
     
     grid["(9,9)"].hasPlayer = true;
     grid["(9,9)"].playerType = "Hunter";
@@ -700,6 +702,10 @@ socket.on('redplayerinit', function(player) {
         endredturninit();
     };
     form.appendChild(finishTurnButton);
+    
+    
+    toolboxRedInitPhase();
+    enableInitToolbox();
     
     grid["(1,1)"].hasPlayer = true;
     grid["(1,1)"].playerType = "Hunter";
@@ -1154,47 +1160,57 @@ var toolboxHunterFive = function(){
     document.getElementById('mine5').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
 }
 var toolboxRedInitPhase = function(){
-    document.getElementById('gold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
-    document.getElementById('underling1').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling2').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling3').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling4').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling5').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling6').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling7').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling8').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling9').src="http://i.imgur.com/6YRQKbO.png";
-    document.getElementById('underling10').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redgold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
+    document.getElementById('redunderling1').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling2').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling3').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling4').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling5').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling6').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling7').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling8').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling9').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redunderling10').src="http://i.imgur.com/6YRQKbO.png";
     document.getElementById('redhunter1').src="http://i.imgur.com/rmRCFeJ.png";
     document.getElementById('redthief1').src="http://i.imgur.com/ldXuWru.png";
 }
 var toolboxBlueInitPhase = function(){
-    document.getElementById('gold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
-    document.getElementById('underling1').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling2').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling3').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling4').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling5').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling6').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling7').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling8').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling9').src="http://i.imgur.com/MGiZ46C.png";
-    document.getElementById('underling10').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('bluegold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
+    document.getElementById('blueunderling1').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling2').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling3').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling4').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling5').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling6').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling7').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling8').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling9').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('blueunderling10').src="http://i.imgur.com/MGiZ46C.png";
     document.getElementById('bluehunter1').src="http://i.imgur.com/2VmSFfI.png";
     document.getElementById('bluethief1').src="http://i.imgur.com/RCLPB6s.png";
 }
 var toolboxWipe = function(){
     document.getElementById('gold').src="";
-    document.getElementById('underling1').src="";
-    document.getElementById('underling2').src="";
-    document.getElementById('underling3').src="";
-    document.getElementById('underling4').src="";
-    document.getElementById('underling5').src="";
-    document.getElementById('underling6').src="";
-    document.getElementById('underling7').src="";
-    document.getElementById('underling8').src="";
-    document.getElementById('underling9').src="";
-    document.getElementById('underling10').src="";
+    document.getElementById('blueunderling1').src="";
+    document.getElementById('blueunderling2').src="";
+    document.getElementById('blueunderling3').src="";
+    document.getElementById('blueunderling4').src="";
+    document.getElementById('blueunderling5').src="";
+    document.getElementById('blueunderling6').src="";
+    document.getElementById('blueunderling7').src="";
+    document.getElementById('blueunderling8').src="";
+    document.getElementById('blueunderling9').src="";
+    document.getElementById('blueunderling10').src="";
+    document.getElementById('redunderling1').src="";
+    document.getElementById('redunderling2').src="";
+    document.getElementById('redunderling3').src="";
+    document.getElementById('redunderling4').src="";
+    document.getElementById('redunderling5').src="";
+    document.getElementById('redunderling6').src="";
+    document.getElementById('redunderling7').src="";
+    document.getElementById('redunderling8').src="";
+    document.getElementById('redunderling9').src="";
+    document.getElementById('redunderling10').src="";
     document.getElementById('redhunter1').src="";
     document.getElementById('redthief1').src=""; 
     document.getElementById('bluehunter1').src="";
@@ -1516,9 +1532,53 @@ var placeMineInGrid = function(ev) {
     document.getElementById("mine3").setAttribute("draggable", "false");
     document.getElementById("mine4").setAttribute("draggable", "false");
     document.getElementById("mine5").setAttribute("draggable", "false");
-    document.getElementById("gold").setAttribute("draggable", "false");
     document.getElementById(data).setAttribute("draggable", "true");
     
+}
+var placeUnitsInGrid = function(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    if(data == "redunderling1" || "redunderling2" || "redunderling3" || "redunderling4" || "redunderling5" || "redunderling6" || "redunderling7" || "redunderling8" || "redunderling9" || "redunderling10"){
+    grid[ev.target.id].playerType = "Underling";     
+    grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "blueunderling1" || "blueunderling2" || "blueunderling3" || "blueunderling4" || "blueunderling5" || "blueunderling6" || "blueunderling7" || "blueunderling8" || "blueunderling9" || "blueunderling10"){
+    grid[ev.target.id].playerType = "Underling";     
+    grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "redhunter1"){
+    grid[ev.target.id].playerType = "Hunter";     
+    grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if (data == "redthief1"){
+    grid[ev.target.id].playerType = "Thief";     
+    grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "bluehunter1"){
+    grid[ev.target.id].playerType = "Hunter";     
+    grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "bluethief1"){
+    grid[ev.target.id].playerType = "Thief";     
+    grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "redgold"){
+    grid[ev.target.id].gold = true;
+    grid[ev.target.id].playerTeam = "Red"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
+    else if(data == "bluegold"){
+    grid[ev.target.id].gold = true;
+    grid[ev.target.id].playerTeam = "Blue"; 
+    document.getElementById(data).setAttribute("draggable", "false");
+    }
 }
 var placeMineInToolbox = function(ev) {
     ev.preventDefault();
@@ -1533,7 +1593,7 @@ var placeMineInToolbox = function(ev) {
     document.getElementById("mine3").setAttribute("draggable", "false");
     document.getElementById("mine4").setAttribute("draggable", "false");
     document.getElementById("mine5").setAttribute("draggable", "false");
-    document.getElementById("gold").setAttribute("draggable", "true");
+    document.getElementById(data).setAttribute("draggable", "true");
     
 }
 
@@ -1548,6 +1608,18 @@ var enableHunterToolbox = function(){
             document.getElementById("gameContent").setAttribute("ondrop", "placeMineInGrid(event)"); 
             document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
             document.getElementById("toolbox").setAttribute("ondrop", "placeMineInToolbox(event)"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
+            document.getElementById("toolbox").style.visibility = "visible";
+}
+var disableInitToolbox = function(){           
+            document.getElementById("gameContent").setAttribute("ondrop", "null"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").setAttribute("ondragover", "null"); 
+            document.getElementById("toolbox").style.visibility = "hidden";
+}
+var enableInitToolbox = function(){
+            document.getElementById("gameContent").setAttribute("ondrop", "placeUnitsInGrid(event)"); 
+            document.getElementById("gameContent").setAttribute("ondragover", "allowDrop(event)"); 
             document.getElementById("toolbox").setAttribute("ondragover", "allowDrop(event)"); 
             document.getElementById("toolbox").style.visibility = "visible";
 }
