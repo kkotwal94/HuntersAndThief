@@ -27,6 +27,8 @@ var currentNumOfValid = 0;
 
 var whoseTurn = "Blue";
 
+var trapHunterBlue = 4;
+var trapHunterRed = 2;
 var isTrapPlaced = false;
 var lastTrap = null;
 
@@ -43,6 +45,12 @@ var $gameDiv = document.getElementById('gameContent');  //getting gameDiv elemen
 $table.id = "gameGrid"; //setting table id
 
 //!IMPORTANT => WE SHOULD PROBABLY MAKE A HUNTER AND A THIEF A CLASS, SO WE COULD HAVE MULTIPLE CHARACTERS IF WE WANTED TO FOR SOME REASON, LIKE HUNTER AND THIEF PARTY 5, or have multiple games going on
+
+var gold = function(type, location) {
+    this.type = type;
+    this.location = location;
+    
+};
 
 var Hero = function(type, nickname, location) {
     this.alive = true;
@@ -100,6 +108,9 @@ var redHunter = new Hero("RedHunter", playerNickname +"redHunter", '(1,1)');
 
 var bluethief = new Hero("BlueThief", playerNickname + "blueThief", '(9,8)');
 var blueHunter = new Hero("BlueHunter", playerNickname + "blueHunter", '(9,9)');
+
+var redgold = new gold("RedGold", "(0,0)");
+var bluegold = new gold("BlueGold", "(9,9)");
 
 //===========================================================================
 // Create grid and fill grid{} object with initialized objects for each key
@@ -705,10 +716,12 @@ socket.on('redPlayerInitLoad', function(locations) {
     grid[locations['redhunterloc']].hasPlayer = true;
     grid[locations['redhunterloc']].playerType = "Hunter";
     grid[locations['redhunterloc']].playerTeam = "Red";
-    
-    document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
-    document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
-});
+    if(playerNickname != locations['name']) {
+        document.getElementById(locations['redthiefloc']).classList.toggle("hasRedThief");
+        document.getElementById(locations['redhunterloc']).classList.toggle("hasRedHunter");
+    }
+        
+    });
 
 socket.on('bluePlayerInitLoad', function(locations) {
     console.log(locations);
@@ -723,10 +736,12 @@ socket.on('bluePlayerInitLoad', function(locations) {
     grid[locations['bluehunterloc']].hasPlayer = true;
     grid[locations['bluehunterloc']].playerType = "Hunter";
     grid[locations['bluehunterloc']].playerTeam = "Blue";
-    
-    document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
-    document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
-});
+    if(playerNickname != locations['name']) {    
+        document.getElementById(locations['bluethiefloc']).classList.toggle("hasBlueThief");
+        document.getElementById(locations['bluehunterloc']).classList.toggle("hasBlueHunter");
+    }
+        
+    });
 
 var initGame = function() {
     console.log("starting game...");
@@ -767,6 +782,33 @@ var initGame = function() {
 
 createGrid();
 
+
+
+grid["(5,5)"].hasPlayer = true;
+grid["(5,5)"].playerType = "Hunter";
+grid["(5,5)"].playerTeam = "Blue";
+grid["(4,5)"].hasPlayer = true;
+grid["(4,5)"].playerType = "Thief";
+grid["(4,5)"].playerTeam = "Blue";
+grid["(4,4)"].hasPlayer = true;
+grid["(4,4)"].playerType = "Hunter";
+grid["(4,4)"].playerTeam = "Red";
+grid["(5,4)"].hasPlayer = true;
+grid["(5,4)"].playerType = "Thief";
+grid["(5,4)"].playerTeam = "Red";
+grid["(6,5)"].hasPlayer = true;
+grid["(6,5)"].playerType = "Underling";
+grid["(6,5)"].playerTeam = "Blue";
+grid["(6,4)"].hasPlayer = true;
+grid["(6,4)"].playerType = "Underling";
+grid["(6,4)"].playerTeam = "Red";
+
+document.getElementById("(5,5)").classList.toggle("hasBlueHunter");
+document.getElementById("(4,5)").classList.toggle("hasBlueThief");
+document.getElementById("(4,4)").classList.toggle("hasRedHunter");
+document.getElementById("(5,4)").classList.toggle("hasRedThief");
+document.getElementById("(6,4)").classList.toggle("hasRedUnderling");
+document.getElementById("(6,5)").classList.toggle("hasBlueUnderling");
 
 
 var underlingInitialSelect = function(clickedTile) {
@@ -1030,7 +1072,83 @@ var thiefDeselect = function(clickedTile){
             } 
             }
 }
-
+var toolboxHunterOne = function(){
+    document.getElementById('mine1').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+}
+var toolboxHunterTwo = function(){
+    document.getElementById('mine1').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine2').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+}
+var toolboxHunterThree = function(){
+    document.getElementById('mine1').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine2').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine3').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+}
+var toolboxHunterFour = function(){
+    document.getElementById('mine1').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine2').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine3').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine4').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+}
+var toolboxHunterFive = function(){
+    document.getElementById('mine1').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine2').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine3').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine4').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+    document.getElementById('mine5').src="http://dj9e9nrc3eeux.cloudfront.net/icons/_mines_weeper_xp.png";
+}
+var toolboxRedInitPhase = function(){
+    document.getElementById('gold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
+    document.getElementById('underling1').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling2').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling3').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling4').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling5').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling6').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling7').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling8').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling9').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('underling10').src="http://i.imgur.com/6YRQKbO.png";
+    document.getElementById('redhunter1').src="http://i.imgur.com/rmRCFeJ.png";
+    document.getElementById('redthief1').src="http://i.imgur.com/ldXuWru.png";
+}
+var toolboxBlueInitPhase = function(){
+    document.getElementById('gold').src="https://cdn0.iconfinder.com/data/icons/48_px_web_icons/48/money_gold.png";
+    document.getElementById('underling1').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling2').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling3').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling4').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling5').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling6').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling7').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling8').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling9').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('underling10').src="http://i.imgur.com/MGiZ46C.png";
+    document.getElementById('bluehunter1').src="http://i.imgur.com/2VmSFfI.png";
+    document.getElementById('bluethief1').src="http://i.imgur.com/RCLPB6s.png";
+}
+var toolboxWipe = function(){
+    document.getElementById('gold').src="";
+    document.getElementById('underling1').src="";
+    document.getElementById('underling2').src="";
+    document.getElementById('underling3').src="";
+    document.getElementById('underling4').src="";
+    document.getElementById('underling5').src="";
+    document.getElementById('underling6').src="";
+    document.getElementById('underling7').src="";
+    document.getElementById('underling8').src="";
+    document.getElementById('underling9').src="";
+    document.getElementById('underling10').src="";
+    document.getElementById('redhunter1').src="";
+    document.getElementById('redthief1').src=""; 
+    document.getElementById('bluehunter1').src="";
+    document.getElementById('bluethief1').src="";      
+    document.getElementById('mine1').src="";
+    document.getElementById('mine2').src="";
+    document.getElementById('mine3').src="";
+    document.getElementById('mine4').src="";
+    document.getElementById('mine5').src="";
+}
 var movementLogic = function() {
     if(grid[this.id].hasPlayer == true){
         if(isSelected == false && grid[this.id].playerType == "Hunter"){ //nothing is selected and you click a hunter
@@ -1038,8 +1156,51 @@ var movementLogic = function() {
             hunterInitialSelect(this.id);
             currentSelectedTile = this.id;
             isSelected = true;
-            enableHunterToolbox();
-        }
+            if(whoseTurn == "Blue"){
+                if(trapHunterBlue == 5){
+                    toolboxHunterFive();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterBlue == 4){
+                    toolboxHunterFour();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterBlue == 3){
+                    toolboxHunterThree();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterBlue == 2){
+                    toolboxHunterTwo();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterBlue == 1){
+                    toolboxHunterOne();
+                    enableHunterToolbox();
+                }
+            }
+            else if(whoseTurn == "Red"){
+                if(trapHunterRed == 5){
+                    toolboxHunterFive();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterRed == 4){
+                    toolboxHunterFour();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterRed == 3){
+                    toolboxHunterThree();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterRed == 2){
+                    toolboxHunterTwo();
+                    enableHunterToolbox();
+                }
+                else if(trapHunterRed == 1){
+                    toolboxHunterOne();
+                    enableHunterToolbox();
+                }
+            }
+            }
         else if (isSelected == false && grid[this.id].playerType == "Thief"){ //nothing is selected and you click a thief
             this.classList.toggle("selectedT");
             thiefInitialSelect(this.id);
@@ -1059,6 +1220,7 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
+            toolboxWipe();
             disableHunterToolbox();
         }
         else if(isSelected == true && this.classList.contains("selectedT")){ //thief is selected, click again to disable
@@ -1110,6 +1272,7 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false; 
+            toolboxWipe();
             disableHunterToolbox();
         }
         else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].playerType == "Underling"){ //underling making kill
@@ -1187,6 +1350,7 @@ var movementLogic = function() {
             currentNumOfValid = 0;
             currentSelectedTile = null;
             isSelected = false;
+            toolboxWipe();
             disableHunterToolbox();
         }  
         else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && grid[currentSelectedTile].playerType == "Underling"){ //underling making valid move
@@ -1205,7 +1369,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false;
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //thief hitting enemy mine
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Thief"){ //thief hitting enemy mine
             thiefDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedT");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -1221,7 +1385,7 @@ var movementLogic = function() {
             currentSelectedTile = null;
             isSelected = false; 
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //hunter hitting enemy mine
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Hunter"){ //hunter hitting enemy mine
             hunterDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedH");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -1238,7 +1402,7 @@ var movementLogic = function() {
             isSelected = false; 
             disableHunterToolbox();
         }
-        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[currentSelectedTile].trap == "true"){ //underling hitting enemy mine
+        else if(isSelected == true && (currentValidMoveLocations.indexOf(this.id) > -1) && (grid[this.id].playerTeam != grid[currentSelectedTile].playerTeam) && grid[this.id].trap == "true" && grid[currentSelectedTile].playerType == "Underling"){ //underling hitting enemy mine
             underlingDeselect(currentSelectedTile);
             document.getElementById(currentSelectedTile).classList.toggle("selectedU");
             document.getElementById(currentSelectedTile).classList.toggle("has"+grid[currentSelectedTile].playerTeam+grid[currentSelectedTile].playerType);
@@ -1271,22 +1435,28 @@ var placeMineInGrid = function(ev) {
         grid[lastTrap].trap = false;
         grid[lastTrap].playerTeam = "null";
         grid[ev.target.id].trap = true;
-        grid[ev.target.id].playerTeam = whoseTurn;
+        grid[ev.target.id].playerTeam = whoseTurn; 
+        console.log(ev.target.id);
         lastTrap = ev.target.id;
+        console.log(lastTrap);
         data = ev.dataTransfer.getData("text");
         ev.target.appendChild(document.getElementById(data));
         isTrapPlaced = false;
     }
     else
     lastTrap = ev.target.id;
+    console.log(lastTrap);
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
     grid[ev.target.id].trap = true;
     grid[ev.target.id].playerTeam = whoseTurn;
     isTrapPlaced = true;
-    document.getElementById("drag1").setAttribute("draggable", "false");
-    document.getElementById("drag2").setAttribute("draggable", "false");
-    document.getElementById("drag3").setAttribute("draggable", "false");
+    document.getElementById("mine1").setAttribute("draggable", "false");
+    document.getElementById("mine2").setAttribute("draggable", "false");
+    document.getElementById("mine3").setAttribute("draggable", "false");
+    document.getElementById("mine4").setAttribute("draggable", "false");
+    document.getElementById("mine5").setAttribute("draggable", "false");
+    document.getElementById("gold").setAttribute("draggable", "false");
     document.getElementById(data).setAttribute("draggable", "true");
     
 }
@@ -1298,9 +1468,12 @@ var placeMineInToolbox = function(ev) {
     ev.target.appendChild(document.getElementById(data));
     isTrapPlaced=false;
     lastTrap = null;
-    document.getElementById("drag1").setAttribute("draggable", "true");
-    document.getElementById("drag2").setAttribute("draggable", "true");
-    document.getElementById("drag3").setAttribute("draggable", "true");
+    document.getElementById("mine1").setAttribute("draggable", "false");
+    document.getElementById("mine2").setAttribute("draggable", "false");
+    document.getElementById("mine3").setAttribute("draggable", "false");
+    document.getElementById("mine4").setAttribute("draggable", "false");
+    document.getElementById("mine5").setAttribute("draggable", "false");
+    document.getElementById("gold").setAttribute("draggable", "true");
     
 }
 
