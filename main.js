@@ -369,15 +369,15 @@ var ready = function(name) {
     var player2 = document.getElementById("player2");
     var readyButton = document.getElementById("readyButton");
     var form = document.getElementById("nickname");
-   
-   // console.log("player1: " + player1.innerHTML);
-    //console.log("player2: " + player2.innerHTML);
-   // console.log("playerNickName: " + playerNickname);
-   // console.log("player1: " + player1.innerHTML);
-    //console.log("player2: " + player2.innerHTML);
-    //console.log(playerNickname == player1.innerHTML);
-    //console.log(playerNickname === player2.innerHTML);
-   
+   /*
+    console.log("player1: " + player1.innerHTML);
+    console.log("player2: " + player2.innerHTML);
+   console.log("playerNickName: " + playerNickname);
+   console.log("player1: " + player1.innerHTML);
+    console.log("player2: " + player2.innerHTML);
+    console.log(playerNickname == player1.innerHTML);
+    console.log(playerNickname === player2.innerHTML);
+   */
     if(player1 != null){
         //console.log("hitplayer1");
         var p1 = player1.innerHTML.split(" ")[0];
@@ -702,7 +702,7 @@ var initGame = function() {
 
 createGrid();
 
-<<<<<<< HEAD
+
 grid["(5,5)"].hasPlayer = true;
 grid["(5,5)"].playerType = "Hunter";
 grid["(5,5)"].playerTeam = "Blue";
@@ -775,13 +775,13 @@ var underlingDeselect = function(clickedTile) {
     fish.classList.toggle("validU");
     }        
      
-}
-=======
+     }
 
 
 
 
->>>>>>> 4c785e89c36ae0ec7b1f59c4a0ef73580050047f
+
+
 var hunterInitialSelect = function(clickedTile) {
     var cat = document.getElementById("("+(grid[clickedTile].locationX + 1)+","+grid[clickedTile].locationY+")");
             if(cat){
