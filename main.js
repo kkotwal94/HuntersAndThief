@@ -31,7 +31,7 @@ var trapHunterBlue = 4;
 var trapHunterRed = 2;
 var isTrapPlaced = false;
 var lastTrap = null;
-
+var redplayer, blueplayer;
 
 var LobbyRoom = [];
 var LobbyRoomSize = 2;
@@ -653,6 +653,7 @@ socket.on('unreadyComplete', function(readyStatus) {
 socket.on('blueplayerinit', function(player) {
    console.log("I am the blue player " + playerNickname); 
     
+    blueplayer = true;
     var finishTurnButton = document.createElement("BUTTON");
     var textNode = document.createTextNode("End Initialization");
     var form = document.getElementById("nickname");
@@ -689,7 +690,7 @@ var endblueturninit = function() {
 
 socket.on('redplayerinit', function(player) {
     console.log("I am the red player " + playerNickname);
-    
+    redplayer = true;
     var finishTurnButton = document.createElement("BUTTON");
     var textNode = document.createTextNode("End Initialization");
     var form = document.getElementById("nickname");
